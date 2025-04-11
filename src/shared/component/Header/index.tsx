@@ -4,8 +4,8 @@ import Link from "next/link";
 export default function Header() {
   return (
     <header className="w-full bg-white border-b">
-      <div className="mx-auto flex items-center justify-between px-4 py-3 max-w-screen-xl">
-        <Link href="/" className="flex items-center space-x-2">
+      <div className="w-[1440px] h-[120px] pl-[30px] pr-[80px] flex items-center justify-between ">
+        <Link href="/" className="flex items-center">
           <Image
             className="dark:invert"
             src="/FocuSSUlogo.svg"
