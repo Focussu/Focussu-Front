@@ -2,7 +2,7 @@ import React from "react";
 
 export default function ThisWeekGroup() {
   return (
-    <div className="width-[1440px] mt-[116px]">
+    <div className="mt-[116px]">
       <h1 className="text-[64px] text-#000000 font-bold mb-[20px]">
         금주 가장 집중도 높은 스터디
       </h1>
