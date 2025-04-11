@@ -10,7 +10,7 @@ export default function TodayFocusTime() {
         <p className="text-[52px] font-extrabold pb-[47px] flex justify-center">
           12h 30m 20s
         </p>
-        <p className="text-[24px] text-gray-600 flex justify-center pb-[12px]">
+        <p className="text-[24px] text-gray-600 flex justify-center pb-[10px]">
           지난주 보다 30m 12s 더 많이 공부했어요!
         </p>
         <p className="text-[24px] text-gray-600 flex justify-center pb-[25px]">
