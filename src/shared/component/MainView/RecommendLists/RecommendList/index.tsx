@@ -1,5 +1,5 @@
 import React from "react";
-import MainImage from "../../MainImage";
+import MainImage from "../../../MainImage";
 
 export default function RecommendList() {
   return (
