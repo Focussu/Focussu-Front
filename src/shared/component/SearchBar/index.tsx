@@ -7,7 +7,7 @@ export default function SearchBar() {
       <input
         type="text"
         placeholder="검색어를 입력하세요"
-        className="border-none text-[14px] w-[400px] ml-[25px]"
+        className="border-none text-[14px] w-[380px] ml-[25px]"
       />
       <Image
         className="dark:invert mr-[17px]"
