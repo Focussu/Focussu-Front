@@ -1,5 +1,7 @@
 import React from "react";
 import SearchBar from "@/shared/component/SearchBar";
+import LeftButton from "@/shared/component/LeftButton";
+import RightButton from "@/shared/component/RightButton";
 
 export default function StudyGroupList() {
   return (
