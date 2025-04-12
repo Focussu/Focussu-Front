@@ -1,9 +1,13 @@
 import React from "react";
 import ListImage from "@/shared/component/ListImage";
 
-export default function GroupList() {
+interface GroupListProps {
+  handleOpen: () => void;
+}
+
+export default function GroupList({ handleOpen }: GroupListProps) {
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col" onClick={() => handleOpen()}>
       <ListImage />
       <div className="mt-[24px] text-[24px] font-semibold">
         JavaScript 잡아라
