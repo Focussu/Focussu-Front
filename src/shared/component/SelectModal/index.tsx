@@ -1,10 +1,13 @@
 import React from "react";
+import { useRouter } from "next/navigation";
 
 interface SelectModalProps {
   handleClose: () => void;
 }
 
 export default function SelectModal({ handleClose }: SelectModalProps) {
+  const router = useRouter();
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
       <div className="w-[800px] h-[660px] bg-white rounded-xl shadow-2xl p-[40px]">
@@ -30,7 +33,10 @@ export default function SelectModal({ handleClose }: SelectModalProps) {
         </div>
 
         <div className="flex justify-center gap-[30px]">
-          <button className="bg-black text-white text-[22px] px-6 py-2 rounded-lg hover:opacity-90">
+          <button
+            className="bg-black text-white text-[22px] px-6 py-2 rounded-lg hover:opacity-90"
+            onClick={() => router.push("/mypage")}
+          >
             참여
           </button>
 
