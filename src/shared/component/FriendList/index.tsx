@@ -1,0 +1,10 @@
+import React from "react";
+
+export default function FriendList() {
+  return (
+    <div className="bg-[#FFFFFF] rounded-lg w-[420px] h-[345px]">
+      <div className="font-bold text-[15px] mt-[16px] ml-[25px]">내 친구</div>
+      <div className="w-[380px] border-t-1 mt-[10px] ml-[18px]"></div>
+    </div>
+  );
+}
