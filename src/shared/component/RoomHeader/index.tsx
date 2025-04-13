@@ -1,12 +1,16 @@
 import React from "react";
+import Link from "next/link";
 
 export default function RoomHeader() {
   return (
     <div className="w-full bg-[#E0E0E0] h-[75px] flex items-center justify-center">
       <div className="flex-1 ml-[30px]">
-        <div className="bg-black text-white font-semibold w-[80px] h-[30px] flex justify-center items-center rounded-lg">
+        <Link
+          href="/mypage"
+          className="bg-black text-white font-semibold w-[80px] h-[30px] flex justify-center items-center rounded-lg "
+        >
           돌아가기
-        </div>
+        </Link>
       </div>
       <div className="flex-1 flex justify-center items-center text-[25px]">
         JavaScript 잡아라

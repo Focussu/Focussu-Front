@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import RoomHeader from "@/shared/component/RoomHeader";
+import RoomFooter from "@/shared/component/RoomFooter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,13 +18,12 @@ export default function StudyroomLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <div className="h-[900px] flex flex-col justify-between">
         <RoomHeader />
         {children}
-      </body>
-    </html>
+        <RoomFooter />
+      </div>
+    </div>
   );
 }
