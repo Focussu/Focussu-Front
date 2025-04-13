@@ -2,7 +2,7 @@ import React from "react";
 
 export default function UserProfile() {
   return (
-    <div className="bg-white border-0 rounded-lg w-[420px] h-[225px]">
+    <div className="bg-white border-0 rounded-lg w-[420px] h-[224px]">
       <div className="flex justify-center gap-[30px] pt-[50px] pl-[30px] pr-[30px]">
         <div className="bg-gray-500 rounded-lg w-[125px] h-[125px]"></div>
         <div className="flex flex-col">
