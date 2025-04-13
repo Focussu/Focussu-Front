@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 export default function PersonalList() {
   return (
@@ -17,9 +18,12 @@ export default function PersonalList() {
           </div>
         </div>
         <div className="flex flex-col gap-[10px] mt-[10px]">
-          <div className="bg-black text-white text-[10px] rounded-lg flex justify-center pl-[10px] pr-[10px] pt-[3px] pb-[3px]">
+          <Link
+            href={"/studyroom/1"}
+            className="bg-black text-white text-[10px] rounded-lg flex justify-center pl-[10px] pr-[10px] pt-[3px] pb-[3px]"
+          >
             참여
-          </div>
+          </Link>
           <div className="bg-gray-400 text-black text-[10px] rounded-lg flex justify-center pl-[10px] pr-[10px] pt-[3px] pb-[3px]">
             나가기
           </div>
