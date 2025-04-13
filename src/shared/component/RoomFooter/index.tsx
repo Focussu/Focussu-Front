@@ -3,8 +3,11 @@
 import React from "react";
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RoomFooter() {
+  const router = useRouter();
+
   const [isPause, setIsPause] = useState<boolean>(false);
 
   // 임시 함수
@@ -14,6 +17,7 @@ export default function RoomFooter() {
     <div className="w-full bg-[#E0E0E0] h-[125px] flex items-center justify-center">
       <div className="flex-1 h-full flex ml-[30px] justify-start items-center">
         <Image
+          onClick={() => router.push("/")}
           className="dark:invert"
           src="/FocuSSUlogo.svg"
           alt="Next.js logo"

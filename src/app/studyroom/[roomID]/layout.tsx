@@ -19,7 +19,7 @@ export default function StudyroomLayout({
 }>) {
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-      <div className="h-[900px] flex flex-col justify-between">
+      <div className="h-[900px] flex flex-col">
         <RoomHeader />
         {children}
         <RoomFooter />

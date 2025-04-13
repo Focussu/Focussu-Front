@@ -1,8 +1,12 @@
 import React from "react";
+import Link from "next/link";
 
 export default function RoomMember() {
   return (
-    <div className="w-[420px] h-[225px] rounded-lg bg-white flex flex-col justify-center items-center">
+    <Link
+      href="/studyroom/1/1"
+      className="w-[420px] h-[225px] rounded-lg bg-white flex flex-col justify-center items-center"
+    >
       <div className="mt-[15px] w-[260px] h-[160px] bg-gray-500"></div>
       <div className="w-[260px] flex flex-row justify-between mt-[10px] mb-[10px]">
         <div className="flex flex-row gap-[12px] items-center justify-center">
@@ -13,6 +17,6 @@ export default function RoomMember() {
           ✅ 현재 활동 중
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
