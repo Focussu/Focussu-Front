@@ -2,7 +2,7 @@ import React from "react";
 import UserProfile from "@/shared/component/UserProfile";
 import ParticipateStudy from "@/shared/component/ParticipateStudy";
 import PersonalAnalysis from "@/shared/component/PersonalAnalysis";
-import FriendList from "@/shared/component/FriendList";
+import FriendLists from "@/shared/component/FriendLists";
 import Ranking from "@/shared/component/Ranking";
 
 export default function MyPage() {
@@ -16,7 +16,7 @@ export default function MyPage() {
         <PersonalAnalysis />
       </div>
       <div className="flex-1 bg-[#E6E6E6] flex flex-col justify-center items-center gap-[30px]">
-        <FriendList />
+        <FriendLists />
         <Ranking />
       </div>
     </div>
