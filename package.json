@@ -6,10 +6,12 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vercel-deploy": "next build && next export"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",
+    "axios": "^1.8.4",
     "next": "15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
