@@ -1,10 +1,25 @@
+"use client";
+
 import React from "react";
+import { useEffect, useRef } from "react";
+import { initCam } from "@/shared/hook/useGetWebCam";
 
 export default function IndivGroupStudy() {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    initCam(videoRef);
+  }, []);
+
   return (
     <div className="bg-white w-[1380px] h-[640px] p-[65px] rounded-lg">
       <div className="flex flex-row gap-[50px]">
-        <div className="w-[810px] h-[510px] border-1 bg-gray-500"></div>
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          className="w-[810px] h-[510px] border-1 bg-gray-500"
+        ></video>
         <div className="flex flex-col justify-between">
           <div className="flex flex-col">
             <div className="flex flex-row gap-[30px] mb-[15px]">
