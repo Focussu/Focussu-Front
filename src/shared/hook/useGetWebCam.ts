@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export interface StreamInterface {
   stream: MediaStream;
 }
@@ -32,10 +34,12 @@ export const initCam = async (
 };
 
 export const captureCam = (
-  videoRef: React.RefObject<HTMLVideoElement | null>
+  videoRef: React.RefObject<HTMLVideoElement | null>,
+  imgRef: React.RefObject<HTMLImageElement | null>
 ) => {
   const video = videoRef.current;
-  if (!video) return;
+  const img = imgRef.current;
+  if (!video || !img) return;
 
   const handleLoadedMetadata = () => {
     const canvas = document.createElement("canvas");
@@ -49,10 +53,14 @@ export const captureCam = (
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       const imageData = canvas.toDataURL("image/png");
       const blob = base64ToBlob(imageData);
-      console.log("Captured image:", blob);
+      const url = URL.createObjectURL(blob);
+
+      uploadToServer(blob);
+
+      img.src = url;
     };
 
-    setInterval(captureFrame, 3000);
+    setInterval(captureFrame, 10000);
   };
 
   video.addEventListener("loadedmetadata", handleLoadedMetadata);
@@ -69,4 +77,25 @@ export const base64ToBlob = (base64Data: string): Blob => {
   }
 
   return new Blob([arrayBuffer], { type: mime });
+};
+
+export const uploadToServer = async (blob: Blob) => {
+  const file = new File([blob], "capture.png", { type: "image/png" });
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const BackUrl = process.env.ID_API_KEY;
+
+    const response = await axios.post(`${BackUrl}/image`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    console.log("업로드 성공");
+    console.log(response);
+  } catch (err) {
+    console.error("업로드 실패:", err);
+  }
 };

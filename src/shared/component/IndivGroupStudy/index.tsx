@@ -6,10 +6,11 @@ import { initCam, captureCam } from "@/shared/hook/useGetWebCam";
 
 export default function IndivGroupStudy() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const imgRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
     initCam(videoRef);
-    captureCam(videoRef);
+    captureCam(videoRef, imgRef);
   }, []);
 
   return (
@@ -40,7 +41,10 @@ export default function IndivGroupStudy() {
               오승민 님의 공부 습관 분석지
             </div>
             <div className="w-[390px] border-t-1 mt-[10px]"></div>
-            <div className="w-[390px] h-[254px] bg-[#E0E0E0] mt-[20px] rounded-lg"></div>
+            <img
+              ref={imgRef}
+              className="w-[390px] h-[254px] bg-[#E0E0E0] mt-[20px] rounded-lg"
+            />
           </div>
         </div>
       </div>
