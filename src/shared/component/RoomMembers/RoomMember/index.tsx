@@ -5,7 +5,7 @@ export default function RoomMember() {
   return (
     <Link
       href="/studyroom/1/1"
-      className="w-[420px] h-[225px] rounded-lg bg-white flex flex-col justify-center items-center"
+      className="w-[415px] h-[225px] rounded-lg bg-white flex flex-col justify-center items-center"
     >
       <div className="mt-[15px] w-[260px] h-[160px] bg-gray-500"></div>
       <div className="w-[260px] flex flex-row justify-between mt-[10px] mb-[10px]">

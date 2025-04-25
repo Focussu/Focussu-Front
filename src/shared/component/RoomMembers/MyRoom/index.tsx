@@ -15,13 +15,13 @@ export default function MyRoom() {
   return (
     <Link
       href="/studyroom/1/1"
-      className="w-[420px] h-[225px] rounded-lg bg-white flex flex-col justify-center items-center"
+      className="w-[415px] h-[225px] rounded-lg bg-white flex flex-col justify-center items-center"
     >
       <video
         ref={videoRef}
         autoPlay
         muted
-        className="mt-[15px] w-[260px] h-[160px] bg-gray-500"
+        className="mt-[15px] max-w-[260px] max-h-[160px]"
       ></video>
       <div className="w-[260px] flex flex-row justify-between mt-[10px] mb-[10px]">
         <div className="flex flex-row gap-[12px] items-center justify-center">
