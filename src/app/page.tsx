@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <div className="mx-auto w-full max-w-[1600px] px-4 md:px-12 xl:px-24 space-y-6">
-        <div className="mt-[120px] text-gray-800 flex justify-between">
+        <div className="mt-[120px] text-gray-800 flex flex-col md:flex-row gap-[clamp(24px,4vw,64px)] items-center justify-between">
           <WelcomeMessage />
           <TodayFocusTime />
         </div>
