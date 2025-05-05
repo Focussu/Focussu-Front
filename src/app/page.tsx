@@ -17,7 +17,7 @@ export default function Home() {
           <WelcomeMessage />
           <TodayFocusTime />
         </div>
-        <div className="mt-[200px] text-gray-800 flex justify-between">
+        <div className="mt-[200px] text-gray-800 flex flex-col md:flex-row items-center gap-[clamp(24px,4vw,64px)] justify-between">
           <ThisWeekGroup />
           <MainImage />
         </div>
