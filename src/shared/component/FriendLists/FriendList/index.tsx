@@ -11,7 +11,7 @@ export default function FriendList() {
             ✅ 현재 활동 중
           </div>
         </div>
-        <div className="w-[40px] h-[25px] text-[10px] mr-[10px] rounded-lg  bg-[#E6E6E6] justify-center flex items-center">
+        <div className="w-[40px] h-[25px] text-[10px] mr-[30px] rounded-lg  bg-[#E6E6E6] justify-center flex items-center">
           채팅
         </div>
       </div>

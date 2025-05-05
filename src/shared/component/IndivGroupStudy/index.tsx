@@ -14,7 +14,7 @@ export default function IndivGroupStudy() {
   }, []);
 
   return (
-    <div className="bg-white w-[1380px] h-[640px] p-[65px] rounded-lg">
+    <div className="bg-white w-[1300px] h-[640px] p-[65px] rounded-lg">
       <div className="flex flex-row gap-[50px]">
         <video
           ref={videoRef}
