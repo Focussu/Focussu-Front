@@ -7,15 +7,17 @@ import Ranking from "@/shared/component/Ranking";
 
 export default function MyPage() {
   return (
-    <div className="flex">
-      <div className="flex-1 bg-[#E6E6E6] flex flex-col justify-center items-center pt-[30px] pb-[30px] gap-[30px]">
+    <div className="flex flex-col lg:flex-row bg-[#E6E6E6]">
+      <div className="w-full lg:w-1/3 flex flex-col justify-center items-center pt-6 pb-6 gap-6">
         <UserProfile />
         <ParticipateStudy />
       </div>
-      <div className="flex-1 bg-[#E6E6E6] flex flex-col justify-center items-center">
+
+      <div className="w-full lg:w-1/3 flex justify-center items-center pt-6 pb-6">
         <PersonalAnalysis />
       </div>
-      <div className="flex-1 bg-[#E6E6E6] flex flex-col justify-center items-center gap-[30px]">
+
+      <div className="w-full lg:w-1/3 flex flex-col justify-center items-center pt-6 pb-6 gap-6">
         <FriendLists />
         <Ranking />
       </div>
