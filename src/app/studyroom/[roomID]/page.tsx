@@ -3,7 +3,7 @@ import RoomMembers from "@/shared/component/RoomMembers";
 
 export default function StudyroomView() {
   return (
-    <div className="h-[700px]">
+    <div className="h-full w-full">
       <RoomMembers />
     </div>
   );
