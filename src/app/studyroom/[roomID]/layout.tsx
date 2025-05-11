@@ -14,15 +14,17 @@ const geistMono = Geist_Mono({
 
 export default function StudyroomLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-      <div className="h-[900px] flex flex-col">
-        <RoomHeader />
-        {children}
-        <RoomFooter />
+      <div className="h-screen w-screen flex flex-col overflow-hidden">
+        <div className="shrink-0">
+          <RoomHeader />
+        </div>
+        <div className="flex-1 overflow-y-auto bg-[#959595]">{children}</div>
+        <div className="shrink-0">
+          <RoomFooter />
+        </div>
       </div>
     </div>
   );

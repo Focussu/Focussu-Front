@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
 import { initCam } from "@/shared/hook/useGetWebCam";
 
 export default function MyRoom() {
@@ -15,20 +14,20 @@ export default function MyRoom() {
   return (
     <Link
       href="/studyroom/1/1"
-      className="w-[415px] h-[225px] rounded-lg bg-white flex flex-col justify-center items-center"
+      className="w-full aspect-[415/225] rounded-lg bg-white flex flex-col justify-center items-center shadow-sm"
     >
       <video
         ref={videoRef}
         autoPlay
         muted
-        className="mt-[15px] max-w-[260px] max-h-[160px]"
+        className="w-[65%] h-[70%] mt-4 rounded-md object-cover bg-gray-500"
       ></video>
-      <div className="w-[260px] flex flex-row justify-between mt-[10px] mb-[10px]">
-        <div className="flex flex-row gap-[12px] items-center justify-center">
-          <div className="text-[15px] font-semibold">오승민</div>
-          <div className="text-[13px]">2h 30m 20s</div>
+      <div className="w-[65%] flex justify-between mt-3 mb-4 text-sm">
+        <div className="flex gap-3 items-center">
+          <div className="font-semibold">오승민</div>
+          <div className="text-xs text-gray-600">2h 30m 20s</div>
         </div>
-        <div className="w-[80px] h-[25px] text-[10px] rounded-lg border-1 border-gray-400 justify-center flex items-center ">
+        <div className="px-2 py-1 text-[10px] rounded border border-gray-400">
           ✅ 현재 활동 중
         </div>
       </div>

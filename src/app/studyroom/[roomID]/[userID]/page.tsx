@@ -1,9 +1,9 @@
-import IndivGroupStudy from "@/shared/component/IndivGroupStudy";
 import React from "react";
+import IndivGroupStudy from "@/shared/component/IndivGroupStudy";
 
 export default function StudyRoomUser() {
   return (
-    <div className="w-[1440px] h-[700px] bg-[#959595] flex justify-center items-center">
+    <div className="flex-grow w-full h-full flex justify-center items-center sm:px-4">
       <IndivGroupStudy />
     </div>
   );
