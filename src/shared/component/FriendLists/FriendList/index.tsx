@@ -2,8 +2,8 @@ import React from "react";
 
 export default function FriendList() {
   return (
-    <div className="w-full h-[75px] border-b mx-[15px] flex flex-row items-center py-[15px]">
-      <div className="w-[60px] h-[50px] mr-[20px] ml-[10px] bg-gray-400 rounded-lg"></div>
+    <div className="w-full h-full border-b flex flex-row items-center py-[15px]">
+      <div className="w-[60px] h-[50px] mx-[10px] bg-gray-400 rounded-lg"></div>
       <div className="flex justify-between w-full">
         <div className="flex flex-row gap-[20px]">
           <div className="text-[15px] font-semibold">19학번</div>

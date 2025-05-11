@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function PersonalList() {
   return (
-    <div className="w-[380px] h-[100px] border-b-1 flex flex-row pl-[10px] pr-[15px] pt-[15px] pb-[15px]">
+    <div className="w-full h-full border-b-1 flex flex-row pl-[10px] pr-[15px] pt-[15px] pb-[15px]">
       <div className="w-[76px] h-[70px] bg-gray-400 rounded-lg"></div>
       <div className="flex justify-between w-full">
         <div className="flex flex-col ml-[20px]">
