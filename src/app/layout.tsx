@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import type { Metadata } from "next";
+
 import ClientLayoutWrapper from "@/shared/component/ClientLayoutWraaper";
 import Providers from "@/shared/util/provider";
 
