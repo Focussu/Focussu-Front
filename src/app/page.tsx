@@ -1,10 +1,12 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { healthCheck } from "@/shared/hook/useServerCheck";
+import { healthCheck, securityCheck } from "@/shared/hook/useServerCheck";
 import {
   TestSuccesResponse,
   TestFailResponse,
+  JWTFailTestResponse,
+  JWTSuccessTestResponse,
 } from "@/shared/type/forAPI/TestType";
 
 import WelcomeMessage from "@/shared/component/MainView/WelcomeMessage";
@@ -17,9 +19,17 @@ import CurrentStudy from "@/shared/component/MainView/CurrentStudy";
 import Footer from "@/shared/component/Footer";
 
 export default function Home() {
-  const { data } = useQuery<TestSuccesResponse | TestFailResponse>({
+  const { data: test } = useQuery<TestSuccesResponse | TestFailResponse>({
     queryKey: ["Health-Check"],
     queryFn: () => healthCheck(),
+    staleTime: 5 * 1000,
+  });
+
+  const { data: security } = useQuery<
+    JWTSuccessTestResponse | JWTFailTestResponse
+  >({
+    queryKey: ["Security-Check"],
+    queryFn: () => securityCheck(),
     staleTime: 5 * 1000,
   });
 
