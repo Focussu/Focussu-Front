@@ -1,4 +1,11 @@
-import React from "react";
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import { healthCheck } from "@/shared/hook/useServerCheck";
+import {
+  TestSuccesResponse,
+  TestFailResponse,
+} from "@/shared/type/forAPI/TestType";
 
 import WelcomeMessage from "@/shared/component/MainView/WelcomeMessage";
 import TodayFocusTime from "@/shared/component/MainView/TodayFocusTime";
@@ -10,6 +17,12 @@ import CurrentStudy from "@/shared/component/MainView/CurrentStudy";
 import Footer from "@/shared/component/Footer";
 
 export default function Home() {
+  const { data } = useQuery<TestSuccesResponse | TestFailResponse>({
+    queryKey: ["Health-Check"],
+    queryFn: () => healthCheck(),
+    staleTime: 5 * 1000,
+  });
+
   return (
     <>
       <div className="mx-auto w-full max-w-[1600px] px-4 md:px-12 xl:px-24 space-y-6">

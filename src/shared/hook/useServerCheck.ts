@@ -1,14 +1,12 @@
 "use client";
 
-import { axiosInstance } from "../util/axios-instance";
-import { useState } from "react";
+import {
+  TestSuccesResponse,
+  TestFailResponse,
+} from "@/shared/type/forAPI/TestType";
 
 export const healthCheck = async () => {
-  const [data, setData] = useState<Array<string> | null>([]);
-
-  try {
-    const response = await axiosInstance.get("/test/healthcheck");
-  } catch (e) {
-  } finally {
-  }
+  return (await fetch(
+    `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}test/health-check`
+  ).then((res) => res.json())) as TestSuccesResponse | TestFailResponse;
 };
