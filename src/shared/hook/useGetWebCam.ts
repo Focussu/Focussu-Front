@@ -85,13 +85,15 @@ export const uploadToServer = async (blob: Blob) => {
   formData.append("file", file);
 
   try {
-    const BackUrl = process.env.ID_API_KEY;
-
-    const response = await axios.post(`${BackUrl}/image`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_AI_SERVER_URL}/image`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     console.log("업로드 성공");
     console.log(response);

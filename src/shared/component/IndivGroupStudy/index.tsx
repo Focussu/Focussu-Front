@@ -15,7 +15,6 @@ export default function IndivGroupStudy() {
   return (
     <div className="w-full max-w-[80%] mx-auto bg-white rounded-xl py-10 px-6 md:px-12 lg:px-16">
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* 왼쪽: 비디오 */}
         <div className="w-full lg:w-2/3">
           <video
             ref={videoRef}
@@ -25,7 +24,6 @@ export default function IndivGroupStudy() {
           />
         </div>
 
-        {/* 오른쪽: 텍스트 & 이미지 */}
         <div className="w-full lg:w-1/3 flex flex-col justify-between">
           <div>
             <div className="flex flex-wrap gap-2 items-center mb-4">
