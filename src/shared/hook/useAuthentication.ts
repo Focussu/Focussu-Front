@@ -1,5 +1,6 @@
 "use client";
 
+// import { useQuery } from "@tanstack/react-query";
 import {
   LoginRequestSchema,
   LoginSuccessResponse,
@@ -29,7 +30,7 @@ export const LogIn = async (email: string, password: string) => {
 /*
 const { data: user } = useQuery<LoginSuccessResponse | LoginFailResponse>({
   queryKey: ["Log-In"],
-  queryFn: () => LogIn(),
+  queryFn: () => LogIn("test1234@gmail.com", "test1234"),
   staleTime: 5 * 1000,
 });
 */
