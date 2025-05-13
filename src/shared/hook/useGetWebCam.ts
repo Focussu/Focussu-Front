@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export interface StreamInterface {
   stream: MediaStream;
 }
@@ -85,13 +83,14 @@ export const uploadToServer = async (blob: Blob) => {
   formData.append("file", file);
 
   try {
-    const response = await axios.post(
+    const response = await fetch(
       `${process.env.NEXT_PUBLIC_AI_SERVER_URL}/image`,
-      formData,
       {
+        method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
         },
+        body: formData,
       }
     );
 

@@ -14,12 +14,15 @@ export const JoinMember = async (
   email: string,
   password: string
 ) => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}api/members/join`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         name,
@@ -43,12 +46,15 @@ const { data: user } = useQuery<MemberJoinSuccessResponse | IsExistingEmailRespo
 */
 
 export const FindMember = async (memberId: number) => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}api/members/${memberId}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         memberId,
@@ -68,12 +74,15 @@ const { data: user } = useQuery<HitSuccessResponse | NotExistingMemberResponse>(
 */
 
 export const DeleteMember = async (memberId: number) => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}api/members/${memberId}`,
     {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         memberId,

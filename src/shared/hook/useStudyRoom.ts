@@ -13,11 +13,14 @@ export const MakeStudyRoom = async (
   description: string,
   profileImageUrl: string
 ) => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}studyrooms`,
     {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -41,8 +44,15 @@ const { data: room } = useQuery<HitSuccessStudyRoomResponse>({
 */
 
 export const FindStudyRoom = async (id: number) => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}studyrooms/${id}`
+    `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}studyrooms/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
   return (await res.json()) as HitSuccessStudyRoomResponse;
 };
@@ -57,8 +67,15 @@ const { data: room } = useQuery<HitSuccessStudyRoomResponse>({
 */
 
 export const FindParticipants = async (roomId: number) => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}api/study-rooms/${roomId}/participants`
+    `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}api/study-rooms/${roomId}/participants`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
   return (await res.json()) as HitSuccessParticipants;
 };

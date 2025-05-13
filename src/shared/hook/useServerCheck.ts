@@ -14,11 +14,13 @@ export const healthCheck = async () => {
   ).then((res) => res.json())) as TestSuccesResponse | TestFailResponse;
 };
 
-// /test/security-work, JWT 인증 체크
+// /test/health-check, 서버 Health 체크
 /*
-const { data: test } = useQuery<TestSuccesResponse | TestFailResponse>({
-  queryKey: ["Health-Check"],
-  queryFn: () => healthCheck(),
+const { data: security } = useQuery<
+  JWTSuccessTestResponse | JWTFailTestResponse
+>({
+  queryKey: ["Security-Check"],
+  queryFn: () => securityCheck(),
   staleTime: 5 * 1000,
 });
 */
@@ -37,13 +39,11 @@ export const securityCheck = async () => {
   return (await res.json()) as JWTSuccessTestResponse | JWTFailTestResponse;
 };
 
-// /test/health-check, 서버 Health 체크
+// /test/security-work, JWT 인증 체크
 /*
-const { data: security } = useQuery<
-  JWTSuccessTestResponse | JWTFailTestResponse
->({
-  queryKey: ["Security-Check"],
-  queryFn: () => securityCheck(),
+const { data: test } = useQuery<TestSuccesResponse | TestFailResponse>({
+  queryKey: ["Health-Check"],
+  queryFn: () => healthCheck(),
   staleTime: 5 * 1000,
 });
 */
