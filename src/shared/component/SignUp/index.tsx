@@ -1,6 +1,36 @@
-import React from "react";
+"use client";
+
+import { useState } from "react";
+
+import { useMutation } from "@tanstack/react-query";
+import { JoinMember } from "@/shared/hook/useMember";
+import {
+  MemberJoinSuccessResponse,
+  IsExistingEmailResponse,
+} from "@/shared/type/forAPI/MemberType";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const { mutate, data, isError } = useMutation<
+    MemberJoinSuccessResponse | IsExistingEmailResponse,
+    Error,
+    { name: string; email: string; password: string }
+  >({
+    mutationFn: ({ name, email, password }) =>
+      JoinMember(name, email, password),
+  });
+
+  const handleSignUp = () => {
+    mutate({ name, email, password });
+    navigate("/login");
+  };
+
   return (
     <div>
       <div className="mx-[15px] mt-[15px] pb-[15px] px-[10px] border-b-1 text-black font-bold text-[18px]">
@@ -11,6 +41,8 @@ export default function SignUp() {
           <div className="text-[16px] text-black">이름</div>
           <input
             type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             className="border-1 border-[#E0E0E0] rounded-lg h-[40px] pl-[10px] focus:outline-none focus:ring-0"
             placeholder="이름을 입력하세요."
           />
@@ -19,6 +51,8 @@ export default function SignUp() {
           <div className="text-[16px] text-black">아이디 ( Email )</div>
           <input
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="border-1 border-[#E0E0E0] rounded-lg h-[40px] pl-[10px] focus:outline-none focus:ring-0"
             placeholder="아이디 ( Email ) 을 입력하세요."
           />
@@ -27,6 +61,8 @@ export default function SignUp() {
           <div className="text-[16px] text-black">비밀번호</div>
           <input
             type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="border-1 border-[#E0E0E0] rounded-lg h-[40px] pl-[10px] focus:outline-none focus:ring-0"
             placeholder="비밀번호를 입력하세요."
           />
@@ -47,7 +83,10 @@ export default function SignUp() {
             placeholder="나에 대한 소개를 해주세요."
           />
         </div>
-        <button className="bg-black text-white text-[15px] py-[10px] mt-[10px] rounded-lg">
+        <button
+          onClick={() => handleSignUp()}
+          className="bg-black text-white text-[15px] py-[10px] mt-[10px] rounded-lg"
+        >
           회원가입 하기
         </button>
       </div>

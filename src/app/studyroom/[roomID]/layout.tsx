@@ -27,8 +27,6 @@ export default function StudyroomLayout({
     staleTime: 5 * 1000,
   });
 
-  console.log(participants);
-
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <div className="h-screen w-screen flex flex-col overflow-hidden">

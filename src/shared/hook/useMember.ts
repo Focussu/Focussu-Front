@@ -14,15 +14,12 @@ export const JoinMember = async (
   email: string,
   password: string
 ) => {
-  const token = localStorage.getItem("token");
-
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}api/members/join`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         name,
@@ -38,11 +35,18 @@ export const JoinMember = async (
 
 // /api/members/join, 회원가입
 /*
-const { data: user } = useQuery<MemberJoinSuccessResponse | IsExistingEmailResponse>({
-  queryKey: ["Join"],
-  queryFn: () => JoinMember("test","test1234@gmail.com","test1234"),
-  staleTime: 5 * 1000,
-});
+  const { mutate, data, isLoading, isError } = useMutation<
+    MemberJoinSuccessResponse | IsExistingEmailResponse,
+    Error,
+    { name: string; email: string; password: string }
+  >({
+    mutationFn: ({ name, email, password }) =>
+      JoinMember(name, email, password),
+  });
+
+  const handleSignUp = () => {
+    mutate({ name, email, password });
+  };
 */
 
 export const FindMember = async (memberId: number) => {
