@@ -3,19 +3,29 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import Header from "@/shared/component/Header";
+import NotLoginHeader from "@/shared/component/Header/NotLoginHeader";
 
 export default function ClientLayoutWrapper({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, [token]);
+
   const pathname = usePathname();
+
+  // StudyRoom 에서 헤더 변경
   const shouldHideHeader = pathname.startsWith("/studyroom/");
 
   return (
     <>
-      {!shouldHideHeader && <Header />}
+      {!shouldHideHeader && (token ? <Header /> : <NotLoginHeader />)}
       {children}
     </>
   );

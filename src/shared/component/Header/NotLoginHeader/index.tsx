@@ -2,8 +2,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import LogOut from "@/shared/component/Logout";
-
 export default function Header() {
   return (
     <header className="w-full bg-white border-b">
@@ -21,18 +19,19 @@ export default function Header() {
 
         <nav className="flex items-center space-x-10">
           <Link
-            href="/studylist"
-            className="text-lg font-medium text-gray-700 hover:text-gray-900 transition-colors"
+            href="/signup"
+            type="button"
+            className="px-4 py-2 text-lg font-medium text-white bg-black rounded hover:bg-gray-800 transition-colors"
           >
-            새로운 스타일 찾기
+            회원가입
           </Link>
           <Link
-            href="/mypage"
-            className="text-lg font-medium text-gray-700 hover:text-gray-900 transition-colors"
+            href="/login"
+            type="button"
+            className="px-4 py-2 text-lg font-medium text-white bg-black rounded hover:bg-gray-800 transition-colors"
           >
-            마이페이지
+            로그인
           </Link>
-          <LogOut />
         </nav>
       </div>
     </header>
