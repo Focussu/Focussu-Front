@@ -1,5 +1,3 @@
-import React from "react";
-
 import SignUp from "@/shared/component/SignUp";
 
 export default function SignupPage() {

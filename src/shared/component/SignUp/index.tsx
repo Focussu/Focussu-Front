@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { useMutation } from "@tanstack/react-query";
 import { JoinMember } from "@/shared/hook/useMember";
@@ -8,14 +9,23 @@ import {
   MemberJoinSuccessResponse,
   IsExistingEmailResponse,
 } from "@/shared/type/forAPI/MemberType";
-import { useNavigate } from "react-router-dom";
+
+import {
+  NameInput,
+  EmailInput,
+  PasswordInput,
+  PasswordCheckInput,
+  DescriptionInput,
+} from "./signupComponents";
+import InputWrapper from "./InputWrapper";
 
 export default function SignUp() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const { mutate, data, isError } = useMutation<
     MemberJoinSuccessResponse | IsExistingEmailResponse,
@@ -28,8 +38,19 @@ export default function SignUp() {
 
   const handleSignUp = () => {
     mutate({ name, email, password });
-    navigate("/login");
+    router.push("/login");
   };
+
+  const inputs = [
+    <NameInput name={name} setName={setName} />,
+    <EmailInput email={email} setEmail={setEmail} />,
+    <PasswordInput password={password} setPassword={setPassword} />,
+    <PasswordCheckInput password={password} setPassword={setPassword} />,
+    <DescriptionInput
+      description={description}
+      setDescription={setDescription}
+    />,
+  ];
 
   return (
     <div>
@@ -37,52 +58,9 @@ export default function SignUp() {
         회원가입
       </div>
       <div className="flex flex-col gap-[25px] mx-[25px] mt-[22px]">
-        <div className="flex flex-col gap-[10px]">
-          <div className="text-[16px] text-black">이름</div>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="border-1 border-[#E0E0E0] rounded-lg h-[40px] pl-[10px] focus:outline-none focus:ring-0"
-            placeholder="이름을 입력하세요."
-          />
-        </div>
-        <div className="flex flex-col gap-[10px]">
-          <div className="text-[16px] text-black">아이디 ( Email )</div>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border-1 border-[#E0E0E0] rounded-lg h-[40px] pl-[10px] focus:outline-none focus:ring-0"
-            placeholder="아이디 ( Email ) 을 입력하세요."
-          />
-        </div>
-        <div className="flex flex-col gap-[10px]">
-          <div className="text-[16px] text-black">비밀번호</div>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border-1 border-[#E0E0E0] rounded-lg h-[40px] pl-[10px] focus:outline-none focus:ring-0"
-            placeholder="비밀번호를 입력하세요."
-          />
-        </div>
-        <div className="flex flex-col gap-[10px]">
-          <div className="text-[16px] text-black">비밀번호 확인</div>
-          <input
-            type="password"
-            className="border-1 border-[#E0E0E0] rounded-lg h-[40px] pl-[10px] focus:outline-none focus:ring-0"
-            placeholder="동일한 비밀번호를 입력하세요."
-          />
-        </div>
-        <div className="flex flex-col gap-[10px]">
-          <div className="text-[16px] text-black">내 소개</div>
-          <input
-            type="text"
-            className="border-1 border-[#E0E0E0] rounded-lg h-[40px] pl-[10px] focus:outline-none focus:ring-0"
-            placeholder="나에 대한 소개를 해주세요."
-          />
-        </div>
+        {inputs.map((InputComponent, idx) => (
+          <InputWrapper key={idx}>{InputComponent}</InputWrapper>
+        ))}
         <button
           onClick={() => handleSignUp()}
           className="bg-black text-white text-[15px] py-[10px] mt-[10px] rounded-lg"
