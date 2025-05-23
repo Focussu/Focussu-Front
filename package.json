@@ -10,8 +10,11 @@
     "vercel-deploy": "next build && next export"
   },
   "dependencies": {
+    "@tanstack/react-query-devtools": "^5.76.0",
+    "@tanstack/react-query-next-experimental": "^5.76.0",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.8.4",
+    "dotenv": "^16.5.0",
     "next": "15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

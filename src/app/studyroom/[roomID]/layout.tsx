@@ -1,6 +1,12 @@
+"use client";
+
 import { Geist, Geist_Mono } from "next/font/google";
 import RoomHeader from "@/shared/component/RoomHeader";
 import RoomFooter from "@/shared/component/RoomFooter";
+
+import { useQuery } from "@tanstack/react-query";
+import { FindParticipants } from "@/shared/hook/useStudyRoom";
+import { HitSuccessParticipants } from "@/shared/type/forAPI/RoomType";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,6 +21,12 @@ const geistMono = Geist_Mono({
 export default function StudyroomLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const { data: participants } = useQuery<HitSuccessParticipants>({
+    queryKey: ["FindParticipants"],
+    queryFn: () => FindParticipants(1),
+    staleTime: 5 * 1000,
+  });
+
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <div className="h-screen w-screen flex flex-col overflow-hidden">

@@ -1,5 +1,3 @@
-import React from "react";
-
 import WelcomeMessage from "@/shared/component/MainView/WelcomeMessage";
 import TodayFocusTime from "@/shared/component/MainView/TodayFocusTime";
 import ThisWeekGroup from "@/shared/component/MainView/ThisWeekGroup";
