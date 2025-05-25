@@ -16,7 +16,7 @@ import {
   PasswordInput,
   PasswordCheckInput,
   DescriptionInput,
-} from "./detail/signupComponents";
+} from "../../util/inputComponents";
 import InputWrapper from "./detail/InputWrapper";
 
 export default function SignUp() {

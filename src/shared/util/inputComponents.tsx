@@ -60,6 +60,7 @@ export function PasswordCheckInput({
       <div className="text-[16px] text-black">비밀번호 확인</div>
       <input
         type="password"
+        value={passwordCheck}
         className="border-1 border-[#E0E0E0] rounded-lg h-[40px] pl-[10px] focus:outline-none focus:ring-0"
         placeholder="동일한 비밀번호를 입력하세요."
       />
@@ -76,6 +77,7 @@ export function DescriptionInput({
       <div className="text-[16px] text-black">내 소개</div>
       <input
         type="text"
+        value={description}
         className="border-1 border-[#E0E0E0] rounded-lg h-[40px] pl-[10px] focus:outline-none focus:ring-0"
         placeholder="나에 대한 소개를 해주세요."
       />
