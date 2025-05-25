@@ -26,6 +26,7 @@ export const LogIn = async (email: string, password: string) => {
       } satisfies LoginRequestSchema),
     }
   );
+
   return (await res.json()) as LoginSuccessResponse | LoginFailResponse;
 };
 

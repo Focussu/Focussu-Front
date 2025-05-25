@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import Header from "@/shared/component/Header";
 import NotLoginHeader from "@/shared/component/Header/NotLoginHeader";
+import { ReloadContext } from "@/shared/context/userContext";
 
 export default function ClientLayoutWrapper({
   children,
@@ -13,10 +14,11 @@ export default function ClientLayoutWrapper({
   children: React.ReactNode;
 }) {
   const [token, setToken] = useState<string | null>(null);
+  const [reload, setReload] = useState<boolean>(false);
 
   useEffect(() => {
     setToken(localStorage.getItem("token"));
-  }, [token]);
+  }, [reload]);
 
   const pathname = usePathname();
 
@@ -24,9 +26,9 @@ export default function ClientLayoutWrapper({
   const shouldHideHeader = pathname.startsWith("/studyroom/");
 
   return (
-    <>
+    <ReloadContext.Provider value={{ reload, setReload }}>
       {!shouldHideHeader && (token ? <Header /> : <NotLoginHeader />)}
       {children}
-    </>
+    </ReloadContext.Provider>
   );
 }

@@ -2,6 +2,7 @@ import {
   NameInputProps,
   EmailInputProps,
   PasswordInputProps,
+  PasswordCheckInputProps,
   DescriptionInputProps,
 } from "@/shared/type/forDATA/ForSignUp";
 
@@ -51,14 +52,16 @@ export function PasswordInput({ password, setPassword }: PasswordInputProps) {
 }
 
 export function PasswordCheckInput({
-  password,
-  setPassword,
-}: PasswordInputProps) {
+  passwordCheck,
+  setPasswordCheck,
+}: PasswordCheckInputProps) {
   return (
     <>
       <div className="text-[16px] text-black">비밀번호 확인</div>
       <input
         type="password"
+        value={passwordCheck}
+        onChange={(e) => setPasswordCheck(e.target.value)}
         className="border-1 border-[#E0E0E0] rounded-lg h-[40px] pl-[10px] focus:outline-none focus:ring-0"
         placeholder="동일한 비밀번호를 입력하세요."
       />
@@ -75,6 +78,8 @@ export function DescriptionInput({
       <div className="text-[16px] text-black">내 소개</div>
       <input
         type="text"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
         className="border-1 border-[#E0E0E0] rounded-lg h-[40px] pl-[10px] focus:outline-none focus:ring-0"
         placeholder="나에 대한 소개를 해주세요."
       />

@@ -13,6 +13,11 @@ export type PasswordInputProps = {
   setPassword: (password: string) => void;
 };
 
+export type PasswordCheckInputProps = {
+  passwordCheck: string;
+  setPasswordCheck: (password: string) => void;
+};
+
 export type DescriptionInputProps = {
   description: string;
   setDescription: (description: string) => void;

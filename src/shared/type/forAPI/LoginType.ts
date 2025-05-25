@@ -13,7 +13,7 @@ export interface LoginRequestSchema {
 }
 
 export interface LoginSuccessResponse {
-  token: string;
+  accessToken: string;
 }
 
 export interface LoginFailResponse extends LogResponse {
