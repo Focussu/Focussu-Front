@@ -2,6 +2,7 @@ import {
   NameInputProps,
   EmailInputProps,
   PasswordInputProps,
+  PasswordCheckInputProps,
   DescriptionInputProps,
 } from "@/shared/type/forDATA/ForSignUp";
 
@@ -51,9 +52,9 @@ export function PasswordInput({ password, setPassword }: PasswordInputProps) {
 }
 
 export function PasswordCheckInput({
-  password,
-  setPassword,
-}: PasswordInputProps) {
+  passwordCheck,
+  setPasswordCheck,
+}: PasswordCheckInputProps) {
   return (
     <>
       <div className="text-[16px] text-black">비밀번호 확인</div>

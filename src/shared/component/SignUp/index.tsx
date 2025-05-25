@@ -16,13 +16,14 @@ import {
   PasswordInput,
   PasswordCheckInput,
   DescriptionInput,
-} from "./signupComponents";
-import InputWrapper from "./InputWrapper";
+} from "./detail/signupComponents";
+import InputWrapper from "./detail/InputWrapper";
 
 export default function SignUp() {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [passwordCheck, setPasswordCheck] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
   const router = useRouter();
@@ -45,7 +46,10 @@ export default function SignUp() {
     <NameInput name={name} setName={setName} />,
     <EmailInput email={email} setEmail={setEmail} />,
     <PasswordInput password={password} setPassword={setPassword} />,
-    <PasswordCheckInput password={password} setPassword={setPassword} />,
+    <PasswordCheckInput
+      passwordCheck={passwordCheck}
+      setPasswordCheck={setPasswordCheck}
+    />,
     <DescriptionInput
       description={description}
       setDescription={setDescription}
