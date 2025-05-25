@@ -7,7 +7,7 @@ export default function RoomMember() {
       href="/studyroom/1/1"
       className="w-full aspect-[415/225] rounded-lg bg-white flex flex-col justify-center items-center shadow-sm"
     >
-      <div className="w-[65%] h-[70%] bg-gray-500 mt-4 rounded-md" />
+      <div className="w-full h-[70%] bg-gray-500 mt-4 rounded-md" />
       <div className="w-[65%] flex justify-between mt-3 mb-4 text-sm">
         <div className="flex gap-3 items-center">
           <div className="font-semibold">오승민</div>

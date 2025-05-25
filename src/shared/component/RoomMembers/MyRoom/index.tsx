@@ -1,14 +1,26 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { initCam } from "@/shared/hook/function/useGetWebCam";
 
 export default function MyRoom() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const socketRef = useRef<WebSocket | null>(null);
+  const token = localStorage.getItem("token");
+
+  const SIGNAL_SERVER = process.env.NEXT_PUBLIC_SIGNAL_SERVER_URL;
 
   useEffect(() => {
     initCam(videoRef);
+
+    // socketRef.current = new WebSocket(SIGNAL_SERVER);
+
+    // socketRef.current.onmessage = async (event) => {
+    //   const data = JSON.parse(event.data);
+    //   const { from, type, offer, answer, candidate } = data;
+    //   console.log(data);
+    // };
   }, []);
 
   return (
