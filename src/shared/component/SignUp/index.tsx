@@ -27,7 +27,6 @@ export default function SignUp() {
   const [password, setPassword] = useState<string>("");
   const [passwordCheck, setPasswordCheck] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const router = useRouter();
