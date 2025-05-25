@@ -21,6 +21,12 @@ export default function Header() {
 
         <nav className="flex items-center space-x-10">
           <Link
+            href="/studylist/create"
+            className="text-lg font-medium text-gray-700 hover:text-gray-900 transition-colors"
+          >
+            새로운 스터디 생성
+          </Link>
+          <Link
             href="/studylist"
             className="text-lg font-medium text-gray-700 hover:text-gray-900 transition-colors"
           >

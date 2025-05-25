@@ -9,8 +9,8 @@ import {
 
 export const MakeStudyRoom = async (
   name: string,
-  maxCapacity: number,
   description: string,
+  maxCapacity: number,
   profileImageUrl: string
 ) => {
   const token = localStorage.getItem("token");
