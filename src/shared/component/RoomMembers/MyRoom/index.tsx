@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { initCam } from "@/shared/hook/useGetWebCam";
+import { initCam } from "@/shared/hook/function/useGetWebCam";
 
 export default function MyRoom() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
