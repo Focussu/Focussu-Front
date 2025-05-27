@@ -16,7 +16,7 @@ import {
   PasswordInput,
   PasswordCheckInput,
   DescriptionInput,
-} from "../../util/inputComponents";
+} from "../../util/MemberInput";
 import InputWrapper from "./detail/InputWrapper";
 
 import { signUpSchema } from "@/shared/schema/ForLoginSchema";

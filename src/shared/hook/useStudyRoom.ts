@@ -31,6 +31,8 @@ export const MakeStudyRoom = async (
       } satisfies CreateNewStudyRoomRequest),
     }
   );
+
+  console.log(res);
   return (await res.json()) as HitSuccessStudyRoomResponse;
 };
 

@@ -8,14 +8,11 @@ import {
 } from "@/shared/type/forAPI/LoginType";
 
 export const LogIn = async (email: string, password: string) => {
-  const token = localStorage.getItem("token");
-
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}auth/login`,
     {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({

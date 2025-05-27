@@ -9,6 +9,15 @@ import {
   CreateNewStudyRoomRequest,
   HitSuccessStudyRoomResponse,
 } from "@/shared/type/forAPI/RoomType";
+import uploadToCloudinary from "@/shared/util/MakeImageURL";
+
+import {
+  NameInput,
+  DescriptionInput,
+  MaxCapacityInput,
+  ProfileImageUrlInput,
+} from "@/shared/util/StudyRoomInput";
+import InputWrapper from "./detail/InputWrapper";
 
 import { CreateStudyRoomSchema } from "@/shared/schema/ForStudyRoomSchema";
 
@@ -17,6 +26,7 @@ export default function StudyInputForm() {
   const [description, setDescription] = useState<string>("");
   const [maxCapcity, setMaxCapacity] = useState<number>(0);
   const [profileImageUrl, setProfileImageUrl] = useState<string>("");
+  const [imageFile, setImageFile] = useState<File>();
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const router = useRouter();
@@ -35,7 +45,7 @@ export default function StudyInputForm() {
       MakeStudyRoom(name, description, maxCapcity, profileImageUrl),
   });
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     const result = CreateStudyRoomSchema.safeParse({
       name,
       description,
@@ -63,18 +73,70 @@ export default function StudyInputForm() {
       return;
     }
 
-    mutate({ name, description, maxCapcity, profileImageUrl });
-    router.push("/studylist");
+    try {
+      let finalImageUrl = profileImageUrl;
+
+      if (imageFile) {
+        finalImageUrl = await uploadToCloudinary(imageFile);
+      }
+
+      mutate({
+        name,
+        description,
+        maxCapcity,
+        profileImageUrl: finalImageUrl,
+      });
+
+      router.push("/studylist");
+    } catch (err) {
+      console.error("이미지 업로드 또는 방 생성 실패:", err);
+    }
   };
 
-  const inputs = [<></>];
+  const inputs = [
+    <>
+      <NameInput name={name} setName={setName} />
+      {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+    </>,
+    <>
+      <DescriptionInput
+        description={description}
+        setDescription={setDescription}
+      />
+      {errors.description && (
+        <p className="text-red-500 text-sm">{errors.description}</p>
+      )}
+    </>,
+    <>
+      <MaxCapacityInput
+        maxCapacity={maxCapcity}
+        setMaxCapacity={setMaxCapacity}
+      />
+      {errors.maxCapcity && (
+        <p className="text-red-500 text-sm">{errors.maxCapcity}</p>
+      )}
+    </>,
+    <>
+      <ProfileImageUrlInput
+        profileImageUrl={profileImageUrl}
+        setProfileImageUrl={setProfileImageUrl}
+        setImageFile={setImageFile}
+      />
+      {errors.profileImageUrl && (
+        <p className="text-red-500 text-sm">{errors.profileImageUrl}</p>
+      )}
+    </>,
+  ];
 
   return (
     <div>
       <div className="mx-[15px] mt-[15px] pb-[15px] px-[10px] border-b-1 text-black font-bold text-[18px]">
-        Study With me
+        Study With Me
       </div>
       <div className="flex flex-col gap-[25px] mx-[25px] mt-[22px]">
+        {inputs.map((InputComponent, idx) => (
+          <InputWrapper key={idx}>{InputComponent}</InputWrapper>
+        ))}
         <button
           onClick={() => handleCreate()}
           className="bg-black text-white text-[15px] py-[10px] mt-[10px] rounded-lg"
