@@ -2,100 +2,189 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const token = localStorage.getItem("token");
-
-const SIGNAL_SERVER = `${process.env.NEXT_PUBLIC_SIGNAL_SERVER_URL}?token=${token}`;
-const iceServers = {
-  iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+type PeerRef = {
+  peer: RTCPeerConnection;
+  stream: MediaStream;
 };
 
-interface PeerStream {
-  type: string;
-  roomId: string;
-  payload: string;
-}
-
-export function useWebRTC(localStream: MediaStream | null) {
-  const [peers, setPeers] = useState<PeerStream[]>([]);
+export function useWebRTCManager(
+  roomId: string,
+  userId: string,
+  socketUrl: string
+) {
+  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+  const [remoteStreams, setRemoteStreams] = useState<
+    { id: string; stream: MediaStream }[]
+  >([]);
+  const peersRef = useRef<Record<string, PeerRef>>({});
   const socketRef = useRef<WebSocket | null>(null);
-  const connections = useRef<Record<string, RTCPeerConnection>>({});
 
   useEffect(() => {
-    if (!localStream) return;
+    initWebSocket();
+    return () => leaveRoom(); // 클린업 시 퇴장
+  }, []);
 
-    socketRef.current = new WebSocket(SIGNAL_SERVER);
+  const initWebSocket = () => {
+    const socket = new WebSocket(
+      `${socketUrl}?token=${localStorage.getItem("token")}`
+    );
+    socketRef.current = socket;
 
-    socketRef.current.onmessage = async (event) => {
-      const data = JSON.parse(event.data);
-      const { from, type, offer, answer, candidate } = data;
-
-      if (type === "join") {
-        const pc = createPeerConnection(from);
-        await pc.setRemoteDescription(new RTCSessionDescription(offer));
-        const answer = await pc.createAnswer();
-        await pc.setLocalDescription(answer);
-        sendMessage({ to: from, type: "answer", answer });
-      }
-
-      if (type === "answer") {
-        await connections.current[from]?.setRemoteDescription(
-          new RTCSessionDescription(answer)
-        );
-      }
-
-      if (type === "ice" && candidate) {
-        await connections.current[from]?.addIceCandidate(
-          new RTCIceCandidate(candidate)
-        );
-      }
+    socket.onopen = () => {
+      console.log("✅ WS connected");
+      joinRoom();
     };
 
-    return () => {
-      socketRef.current?.close();
+    socket.onmessage = async (event) => {
+      const msg = JSON.parse(event.data);
+
+      switch (msg.type) {
+        case "JOINED":
+          msg.payload.peers.forEach(async (peerId: string) => {
+            const peer = createPeer(peerId);
+            peersRef.current[peerId] = { peer, stream: new MediaStream() };
+
+            localStream?.getTracks().forEach((track) => {
+              peer.addTrack(track, localStream);
+            });
+
+            const offer = await peer.createOffer();
+            await peer.setLocalDescription(offer);
+            socket.send(
+              JSON.stringify({
+                type: "OFFER",
+                roomId,
+                to: peerId,
+                payload: { offer: peer.localDescription },
+              })
+            );
+          });
+          break;
+
+        case "NEW_PEER":
+          const peerId = msg.payload.from;
+          const newPeer = createPeer(peerId);
+          peersRef.current[peerId] = {
+            peer: newPeer,
+            stream: new MediaStream(),
+          };
+
+          localStream?.getTracks().forEach((track) => {
+            newPeer.addTrack(track, localStream);
+          });
+          break;
+
+        case "OFFER":
+          const from = msg.payload.from;
+          const incomingPeer = createPeer(from);
+          peersRef.current[from] = {
+            peer: incomingPeer,
+            stream: new MediaStream(),
+          };
+
+          localStream?.getTracks().forEach((track) => {
+            incomingPeer.addTrack(track, localStream);
+          });
+
+          await incomingPeer.setRemoteDescription(
+            new RTCSessionDescription(msg.payload.offer)
+          );
+          const answer = await incomingPeer.createAnswer();
+          await incomingPeer.setLocalDescription(answer);
+          socket.send(
+            JSON.stringify({
+              type: "ANSWER",
+              roomId,
+              to: from,
+              payload: { answer: incomingPeer.localDescription },
+            })
+          );
+          break;
+
+        case "ANSWER":
+          await peersRef.current[msg.payload.from]?.peer.setRemoteDescription(
+            new RTCSessionDescription(msg.payload.answer)
+          );
+          break;
+
+        case "CANDIDATE":
+          await peersRef.current[msg.payload.from]?.peer.addIceCandidate(
+            new RTCIceCandidate(msg.payload.candidate)
+          );
+          break;
+
+        case "PEER_LEFT":
+          const peerLeft = msg.payload.from;
+          peersRef.current[peerLeft]?.peer.close();
+          delete peersRef.current[peerLeft];
+          setRemoteStreams((prev) => prev.filter((s) => s.id !== peerLeft));
+          break;
+      }
     };
-  }, [localStream]);
+  };
 
-  const createPeerConnection = (id: string) => {
-    const pc = new RTCPeerConnection(iceServers);
+  const createPeer = (peerId: string) => {
+    const peer = new RTCPeerConnection();
 
-    localStream
-      ?.getTracks()
-      .forEach((track) => pc.addTrack(track, localStream));
-
-    pc.onicecandidate = (e) => {
+    peer.onicecandidate = (e) => {
       if (e.candidate) {
-        sendMessage({ to: id, type: "ice", candidate: e.candidate });
+        socketRef.current?.send(
+          JSON.stringify({
+            type: "CANDIDATE",
+            roomId,
+            to: peerId,
+            payload: { candidate: e.candidate },
+          })
+        );
       }
     };
 
-    // pc.ontrack = (e) => {
-    //   const stream = new MediaStream([e.track]);
-    //   setPeers((prev) => [
-    //     ...prev.filter((p) => p.id !== id),
-    //     {
-    //       id,
-    //       name: `참가자 ${prev.length + 1}`,
-    //       time: "00:10:00",
-    //       stream,
-    //     },
-    //   ]);
-    // };
+    peer.ontrack = (e) => {
+      const incoming = e.streams[0];
+      setRemoteStreams((prev) => {
+        const exists = prev.some((s) => s.id === peerId);
+        if (exists) return prev;
+        return [...prev, { id: peerId, stream: incoming }];
+      });
+    };
 
-    connections.current[id] = pc;
-    return pc;
+    return peer;
   };
 
-  const sendMessage = (msg: any) => {
-    socketRef.current?.send(JSON.stringify(msg));
-  };
-
-  const callUser = (id: string) => {
-    const pc = createPeerConnection(id);
-    pc.createOffer().then((offer) => {
-      pc.setLocalDescription(offer);
-      sendMessage({ to: id, type: "offer", offer });
+  const joinRoom = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true,
     });
+    setLocalStream(stream);
+
+    socketRef.current?.send(
+      JSON.stringify({
+        type: "JOIN",
+        roomId,
+      })
+    );
   };
 
-  return { peers, callUser };
+  const leaveRoom = () => {
+    socketRef.current?.send(
+      JSON.stringify({
+        type: "LEAVE",
+        roomId,
+      })
+    );
+
+    Object.values(peersRef.current).forEach(({ peer }) => peer.close());
+    peersRef.current = {};
+    setRemoteStreams([]);
+    localStream?.getTracks().forEach((t) => t.stop());
+    socketRef.current?.close();
+  };
+
+  return {
+    localStream,
+    remoteStreams,
+    joinRoom,
+    leaveRoom,
+  };
 }

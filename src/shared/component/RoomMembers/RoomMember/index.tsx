@@ -1,13 +1,31 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 
-export default function RoomMember() {
+import { useRef, useEffect } from "react";
+
+export default function RoomMember({ stream }: { stream: MediaStream }) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.srcObject = stream;
+    }
+  }, [stream]);
+
   return (
     <Link
       href="/studyroom/1/1"
       className="w-full aspect-[415/225] rounded-lg bg-white flex flex-col justify-center items-center shadow-sm"
     >
-      <div className="w-full h-[70%] bg-gray-500 mt-4 rounded-md" />
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        muted
+        className="w-full h-[70%] bg-gray-500 mt-4 rounded-md"
+      />
       <div className="w-[65%] flex justify-between mt-3 mb-4 text-sm">
         <div className="flex gap-3 items-center">
           <div className="font-semibold">오승민</div>
