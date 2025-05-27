@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { initCam, captureCam } from "@/shared/hook/useGetWebCam";
+import { initCam, captureCam } from "@/shared/hook/function/useGetWebCam";
 
 export default function IndivGroupStudy() {
   const videoRef = useRef<HTMLVideoElement | null>(null);

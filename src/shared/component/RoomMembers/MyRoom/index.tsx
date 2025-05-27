@@ -2,9 +2,9 @@
 
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { initCam } from "@/shared/hook/useGetWebCam";
+import { initCam } from "@/shared/hook/function/useGetWebCam";
 
-export default function MyRoom() {
+export default function MyRoom({ stream }: { stream: MediaStream | null }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -20,6 +20,7 @@ export default function MyRoom() {
         ref={videoRef}
         autoPlay
         muted
+        playsInline
         className="w-[65%] h-[70%] mt-4 rounded-md object-cover bg-gray-500"
       ></video>
       <div className="w-[65%] flex justify-between mt-3 mb-4 text-sm">

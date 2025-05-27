@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import Header from "@/shared/component/Header";
 import NotLoginHeader from "@/shared/component/Header/NotLoginHeader";
-import { ReloadContext } from "@/shared/context/userContext";
+import { ReloadContext, TokenContext } from "@/shared/context/userContext";
 
 export default function ClientLayoutWrapper({
   children,
@@ -27,8 +27,10 @@ export default function ClientLayoutWrapper({
 
   return (
     <ReloadContext.Provider value={{ reload, setReload }}>
-      {!shouldHideHeader && (token ? <Header /> : <NotLoginHeader />)}
-      {children}
+      <TokenContext.Provider value={{ token }}>
+        {!shouldHideHeader && (token ? <Header /> : <NotLoginHeader />)}
+        {children}
+      </TokenContext.Provider>
     </ReloadContext.Provider>
   );
 }

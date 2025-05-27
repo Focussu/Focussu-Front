@@ -78,24 +78,21 @@ export const base64ToBlob = (base64Data: string): Blob => {
 };
 
 export const uploadToServer = async (blob: Blob) => {
-  const file = new File([blob], "capture.png", { type: "image/png" });
+  const file = new File([blob], "capture.jpg", { type: "image/jpg" });
   const formData = new FormData();
   formData.append("file", file);
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_AI_SERVER_URL}/image`,
+      `${process.env.NEXT_PUBLIC_AI_SERVER_URL}/predict/face`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
         body: formData,
       }
     );
 
     console.log("업로드 성공");
-    console.log(response);
+    console.log(response.json());
   } catch (err) {
     console.error("업로드 실패:", err);
   }

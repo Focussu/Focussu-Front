@@ -9,8 +9,8 @@ import {
 
 export const MakeStudyRoom = async (
   name: string,
-  maxCapacity: number,
   description: string,
+  maxCapacity: number,
   profileImageUrl: string
 ) => {
   const token = localStorage.getItem("token");
@@ -31,6 +31,8 @@ export const MakeStudyRoom = async (
       } satisfies CreateNewStudyRoomRequest),
     }
   );
+
+  console.log(res);
   return (await res.json()) as HitSuccessStudyRoomResponse;
 };
 

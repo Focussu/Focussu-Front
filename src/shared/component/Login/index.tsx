@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
 
-import { EmailInput, PasswordInput } from "@/shared/util/inputComponents";
+import { EmailInput, PasswordInput } from "@/shared/util/MemberInput";
 import { LogIn } from "@/shared/hook/useAuthentication";
 import { useReload } from "@/shared/context/userContext";
 
@@ -24,12 +24,19 @@ export default function Login() {
 
   const router = useRouter();
 
-  const { mutate, data, isError } = useMutation<
+  const { mutate, data } = useMutation<
     LoginSuccessResponse | LoginFailResponse,
     Error,
     { email: string; password: string }
   >({
     mutationFn: ({ email, password }) => LogIn(email, password),
+    onSuccess: (data) => {
+      if ("accessToken" in data) {
+        localStorage.setItem("token", data.accessToken);
+        router.push("/");
+        setReload(!reload);
+      }
+    },
   });
 
   const handleLogin = () => {
@@ -59,12 +66,7 @@ export default function Login() {
     }
 
     mutate({ email, password });
-
-    if (data && "accessToken" in data) {
-      localStorage.setItem("token", data.accessToken);
-      router.push("/");
-      setReload(!reload);
-    }
+    console.log(data);
   };
 
   const inputs = [
