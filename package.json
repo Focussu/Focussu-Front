@@ -10,6 +10,7 @@
     "vercel-deploy": "next build && next export"
   },
   "dependencies": {
+    "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
     "@tanstack/react-query-devtools": "^5.76.0",
     "@tanstack/react-query-next-experimental": "^5.76.0",
     "@types/react-router-dom": "^5.3.3",
