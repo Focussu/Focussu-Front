@@ -6,7 +6,6 @@ import { FaceLandmarker, FilesetResolver, DrawingUtils } from "@mediapipe/tasks-
 export interface FaceLandmarkResult {
   landmarks: any[];
   blendshapes: any[];
-  facialTransformationMatrixes: any[];
 }
 
 export interface UseFaceLandmarkerReturn {
@@ -45,7 +44,7 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
           runningMode: "VIDEO",
           numFaces: 1,
           outputFaceBlendshapes: true,
-          outputFacialTransformationMatrixes: true
+          outputFacialTransformationMatrixes: false
         });
 
         setFaceLandmarker(landmarker);
@@ -70,8 +69,7 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
       
       return {
         landmarks: results.faceLandmarks || [],
-        blendshapes: results.faceBlendshapes || [],
-        facialTransformationMatrixes: results.facialTransformationMatrixes || []
+        blendshapes: results.faceBlendshapes || []
       };
     } catch (err) {
       console.error("얼굴 감지 실패:", err);
@@ -151,12 +149,11 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
       const payload = {
         landmarks: results.landmarks,
         blendshapes: results.blendshapes,
-        facialTransformationMatrixes: results.facialTransformationMatrixes,
         timestamp: Date.now()
       };
-
+      console.log(payload);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_AI_SERVER_URL}/predict/landmarks`,
+        `${process.env.NEXT_PUBLIC_AI_SERVER_URL}/ai/score`,
         {
           method: "POST",
           headers: {
