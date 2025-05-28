@@ -195,6 +195,7 @@ export function useWebRTCManager(
     setRemoteStreams([]);
     localStream?.getTracks().forEach((t) => t.stop());
     socketRef.current?.close();
+    console.log(socketRef);
   };
 
   return {
