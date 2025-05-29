@@ -13,18 +13,13 @@ import GroupList from "@/shared/component/GroupLists/GroupList";
 
 interface GroupListsProps {
   handleOpen: (room: ForCallAllStudyRooms) => void;
+  rooms: ForCallAllStudyRooms[];
 }
 
-export default function GroupLists({ handleOpen }: GroupListsProps) {
-  const { data: allRoom } = useQuery<CallAllStudyRoomResponse>({
-    queryKey: ["AllStudyRooms"],
-    queryFn: () => CallAllStudyRoom(),
-    staleTime: 5 * 1000,
-  });
-
+export default function GroupLists({ handleOpen, rooms }: GroupListsProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[clamp(20px,4vw,48px)] px-[clamp(16px,5vw,80px)]">
-      {allRoom?.map((room: ForCallAllStudyRooms) => (
+      {rooms?.map((room: ForCallAllStudyRooms) => (
         <GroupList key={room.id} room={room} onClick={() => handleOpen(room)} />
       ))}
     </div>
