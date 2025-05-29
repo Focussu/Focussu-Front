@@ -15,13 +15,12 @@ interface GroupListProps {
 export default function GroupList({ room, handleOpen }: GroupListProps) {
   return (
     <div
-      className="flex flex-col w-full min-w-[clamp(300px,25vw,400px)] cursor-pointer"
+      className="flex flex-col w-full max-w-[320px] cursor-pointer mx-auto gap-5"
       onClick={handleOpen}
     >
       <ListImage image={room?.profileImageUrl} />
       <div className="flex flex-col gap-1">
-        {" "}
-        <div className="mt-[clamp(12px,1.5vw,20px)] text-[clamp(16px,1.8vw,22px)] font-semibold">
+        <div className="text-[clamp(16px,1.8vw,22px)] font-semibold truncate">
           {room?.name}
         </div>
         <div className="text-[clamp(13px,1.6vw,18px)] text-gray-600 truncate">
@@ -30,7 +29,7 @@ export default function GroupList({ room, handleOpen }: GroupListProps) {
         <div className="text-[clamp(13px,1.5vw,18px)] text-gray-500">
           정원 : {room?.maxCapacity}
         </div>
-      </div>{" "}
+      </div>
     </div>
   );
 }
