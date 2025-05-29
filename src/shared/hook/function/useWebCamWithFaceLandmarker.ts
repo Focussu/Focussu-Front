@@ -133,7 +133,7 @@ export const useWebCamWithFaceLandmarker = (): UseWebCamWithFaceLandmarkerReturn
     const now = Date.now();
     const lastDetection = sessionStorage.getItem('lastDetection');
     
-    if (!lastDetection || now - parseInt(lastDetection) > 200) {
+    if (!lastDetection || now - parseInt(lastDetection) > 50) {
       const results = detectFace(video);
       
       if (results) {
@@ -142,10 +142,10 @@ export const useWebCamWithFaceLandmarker = (): UseWebCamWithFaceLandmarkerReturn
         // 랜드마크 그리기
         drawLandmarks(canvas, results);
         
-        // 주기적으로 서버에 데이터 전송 (5초마다) - 감지가 활성화된 경우에만
+        // 주기적으로 서버에 데이터 전송 (1초마다) - 감지가 활성화된 경우에만
         if (isDetectionActiveRef.current) {
           const lastSent = sessionStorage.getItem('lastLandmarkSent');
-          if (!lastSent || now - parseInt(lastSent) > 5000) {
+          if (!lastSent || now - parseInt(lastSent) > 1000) {
             sendLandmarksToServer(results);
             sessionStorage.setItem('lastLandmarkSent', now.toString());
           }

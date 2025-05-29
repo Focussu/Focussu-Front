@@ -22,6 +22,12 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const drawingUtilsRef = useRef<DrawingUtils | null>(null);
+  
+  // 배치 처리를 위한 ref 사용 (동기적 처리)
+  const landmarkBatchRef = useRef<FaceLandmarkResult[]>([]);
+  const BATCH_SIZE = 5; // 배치 크기 설정
+  const batchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isSendingRef = useRef<boolean>(false); // 전송 중 플래그
 
   // MediaPipe Face Landmarker 초기화
   useEffect(() => {
@@ -146,32 +152,114 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
   // 서버로 랜드마크 데이터 전송
   const sendLandmarksToServer = useCallback(async (results: FaceLandmarkResult) => {
     try {
-      const payload = {
-        landmarks: results.landmarks,
-        blendshapes: results.blendshapes,
-        timestamp: Date.now()
-      };
-      console.log(payload);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_AI_SERVER_URL}/ai/score`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`서버 응답 오류: ${response.status}`);
+      // 전송 중이면 추가하지 않음
+      if (isSendingRef.current) {
+        return;
       }
 
-      const result = await response.json();
-      console.log("랜드마크 데이터 전송 성공:", result);
+      // 배치에 새 데이터 추가
+      landmarkBatchRef.current.push(results);
+
+      // 기존 타임아웃 클리어
+      if (batchTimeoutRef.current) {
+        clearTimeout(batchTimeoutRef.current);
+        batchTimeoutRef.current = null;
+      }
+
+      // 배치 크기에 도달하면 즉시 전송
+      if (landmarkBatchRef.current.length >= BATCH_SIZE) {
+        isSendingRef.current = true; // 전송 시작
+        
+        const batchToSend = [...landmarkBatchRef.current];
+        landmarkBatchRef.current = []; // 배치 즉시 초기화
+
+        const payload = {
+          landmarks: batchToSend.map(item => item.landmarks),
+          blendshapes: batchToSend.map(item => item.blendshapes),
+          timestamp: Date.now()
+        };
+
+        try {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_AI_SERVER_URL}/ai/score`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error(`서버 응답 오류: ${response.status}`);
+          }
+
+          const result = await response.json();
+          console.log(`배치 랜드마크 데이터 전송 성공 (${batchToSend.length}개):`, result);
+        } catch (err) {
+          console.error("배치 랜드마크 데이터 전송 실패:", err);
+        } finally {
+          isSendingRef.current = false; // 전송 완료
+        }
+        
+        return;
+      }
+
+      // 타임아웃 설정 (30초 후에 남은 데이터 전송)
+      batchTimeoutRef.current = setTimeout(async () => {
+        if (landmarkBatchRef.current.length > 0 && !isSendingRef.current) {
+          isSendingRef.current = true; // 전송 시작
+          
+          const batchToSend = [...landmarkBatchRef.current];
+          landmarkBatchRef.current = []; // 배치 즉시 초기화
+
+          const payload = {
+            landmarks: batchToSend.map(item => item.landmarks),
+            blendshapes: batchToSend.map(item => item.blendshapes),
+            timestamp: Date.now()
+          };
+
+          try {
+            const response = await fetch(
+              `${process.env.NEXT_PUBLIC_AI_SERVER_URL}/ai/score`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error(`서버 응답 오류: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log(`타임아웃 배치 랜드마크 데이터 전송 성공 (${batchToSend.length}개):`, result);
+          } catch (err) {
+            console.error("타임아웃 배치 랜드마크 데이터 전송 실패:", err);
+          } finally {
+            isSendingRef.current = false; // 전송 완료
+          }
+        }
+        batchTimeoutRef.current = null;
+      }, 30000);
+
     } catch (err) {
-      console.error("랜드마크 데이터 전송 실패:", err);
+      console.error("랜드마크 데이터 처리 실패:", err);
+      isSendingRef.current = false; // 에러 시에도 플래그 해제
     }
+  }, []);
+
+  // 컴포넌트 언마운트 시 타임아웃 정리
+  useEffect(() => {
+    return () => {
+      if (batchTimeoutRef.current) {
+        clearTimeout(batchTimeoutRef.current);
+      }
+    };
   }, []);
 
   return {
