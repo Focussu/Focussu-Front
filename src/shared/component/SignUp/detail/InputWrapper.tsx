@@ -5,5 +5,9 @@ type InputWrapperProps = {
 };
 
 export default function InputWrapper({ children }: InputWrapperProps) {
-  return <div className="flex flex-col gap-[10px]">{children}</div>;
+  return (
+    <div className="flex flex-col gap-[10px] max-h-20 overflow-y-auto">
+      {children}
+    </div>
+  );
 }

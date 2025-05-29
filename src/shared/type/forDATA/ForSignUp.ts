@@ -22,3 +22,9 @@ export type DescriptionInputProps = {
   description: string;
   setDescription: (description: string) => void;
 };
+
+export type ProfileImageUrlInputProps = {
+  profileImageUrl: string;
+  setProfileImageUrl: (profileImageUrl: string) => void;
+  setImageFile: (imageFile: File) => void;
+};

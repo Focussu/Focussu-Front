@@ -1,5 +1,6 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext } from "react";
 
 // 강제 reload trigger

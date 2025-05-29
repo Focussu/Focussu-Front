@@ -12,7 +12,9 @@ import {
 export const JoinMember = async (
   name: string,
   email: string,
-  password: string
+  password: string,
+  description: string,
+  profileImageUrl: string
 ) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}api/members/join`,
@@ -25,6 +27,8 @@ export const JoinMember = async (
         name,
         email,
         password,
+        description,
+        profileImageUrl,
       } satisfies MemberJoinRequest),
     }
   );

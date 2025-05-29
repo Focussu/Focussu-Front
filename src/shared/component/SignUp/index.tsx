@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { useMutation } from "@tanstack/react-query";
 import { JoinMember } from "@/shared/hook/api/useMember";
+import uploadToCloudinary from "@/shared/util/MakeImageURL";
 import {
   MemberJoinSuccessResponse,
   IsExistingEmailResponse,
@@ -16,6 +17,7 @@ import {
   PasswordInput,
   PasswordCheckInput,
   DescriptionInput,
+  ProfileImageUrlInput,
 } from "../../util/MemberInput";
 import InputWrapper from "./detail/InputWrapper";
 
@@ -27,6 +29,9 @@ export default function SignUp() {
   const [password, setPassword] = useState<string>("");
   const [passwordCheck, setPasswordCheck] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [profileImageUrl, setProfileImageUrl] = useState<string>("");
+  const [imageFile, setImageFile] = useState<File>();
+
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const router = useRouter();
@@ -34,13 +39,19 @@ export default function SignUp() {
   const { mutate, data, isError } = useMutation<
     MemberJoinSuccessResponse | IsExistingEmailResponse,
     Error,
-    { name: string; email: string; password: string }
+    {
+      name: string;
+      email: string;
+      password: string;
+      description: string;
+      profileImageUrl: string;
+    }
   >({
-    mutationFn: ({ name, email, password }) =>
-      JoinMember(name, email, password),
+    mutationFn: ({ name, email, password, description, profileImageUrl }) =>
+      JoinMember(name, email, password, description, profileImageUrl),
   });
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     const result = signUpSchema.safeParse({
       name,
       email,
@@ -69,8 +80,25 @@ export default function SignUp() {
       return;
     }
 
-    mutate({ name, email, password });
-    router.push("/login");
+    try {
+      let finalImageUrl = profileImageUrl;
+
+      if (imageFile) {
+        finalImageUrl = await uploadToCloudinary(imageFile);
+      }
+
+      mutate({
+        name,
+        email,
+        password,
+        description,
+        profileImageUrl: finalImageUrl,
+      });
+
+      router.push("/login");
+    } catch (err) {
+      console.error("이미지 업로드 또는 방 생성 실패:", err);
+    }
   };
 
   const inputs = [
@@ -104,6 +132,16 @@ export default function SignUp() {
       />
       {errors.description && (
         <p className="text-red-500 text-sm">{errors.description}</p>
+      )}
+    </>,
+    <>
+      <ProfileImageUrlInput
+        profileImageUrl={profileImageUrl}
+        setProfileImageUrl={setProfileImageUrl}
+        setImageFile={setImageFile}
+      />
+      {errors.profileImageUrl && (
+        <p className="text-red-500 text-sm">{errors.profileImageUrl}</p>
       )}
     </>,
   ];

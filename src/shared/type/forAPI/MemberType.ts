@@ -3,6 +3,8 @@
 export interface MemberBasicSchema {
   name: string;
   email: string;
+  description: string;
+  profileImageUrl: string;
 }
 
 export interface MemberErrorResponse {

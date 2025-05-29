@@ -30,7 +30,6 @@ export const FindThisWeekStudyTime = async () => {
       },
     }
   );
-
   return (await res.json()) as ThisWeekStudyTime;
 };
 
