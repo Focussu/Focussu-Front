@@ -1,3 +1,9 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+
+import { ThisWeekStudyTime } from "@/shared/type/forAPI/StudyType";
+
 export default function TodayFocusTime() {
   return (
     <div className="w-full max-w-[clamp(800px,2.5vw,1200px)] aspect-[2/1] p-6 md:p-10 border-[3px] rounded-lg shadow-sm">

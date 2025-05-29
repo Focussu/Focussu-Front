@@ -1,5 +1,19 @@
 import React from "react";
 
-export default function ListImage() {
-  return <div className="w-full aspect-[3/2] bg-gray-300 rounded-lg" />;
+interface ListImageProps {
+  image: string;
+}
+
+export default function ListImage({ image }: ListImageProps) {
+  return (
+    <>
+      <img
+        src={image}
+        alt="이미지가 없어용"
+        width={48}
+        height={48}
+        className="w-full aspect-[3/2] rounded-lg object-cover object-center"
+      />
+    </>
+  );
 }

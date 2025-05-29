@@ -11,7 +11,7 @@ export interface StudyRoomResponse {
 
 export interface ForCallAllStudyRooms extends StudyRoomResponse {
   id: number;
-  profileIamgeUrl: string;
+  profileImageUrl: string;
 }
 
 export type CallAllStudyRoomResponse = ForCallAllStudyRooms[];

@@ -10,9 +10,9 @@ import {
   CallAllMyStudyRoomResponse,
 } from "@/shared/type/forAPI/RoomType";
 
-const token = localStorage.getItem("token");
-
 export const CallAllStudyRoom = async () => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}studyrooms`,
     {
@@ -41,6 +41,8 @@ export const MakeStudyRoom = async (
   maxCapacity: number,
   profileImageUrl: string
 ) => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}studyrooms`,
     {
@@ -71,6 +73,8 @@ const { data: room } = useQuery<HitSuccessStudyRoomResponse>({
 */
 
 export const FindStudyRoom = async (id: number) => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}studyrooms/${id}`,
     {
@@ -93,6 +97,8 @@ const { data: room } = useQuery<HitSuccessStudyRoomResponse>({
 */
 
 export const JoinStudyRoom = async (id: number) => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}join/${id}`,
     {
@@ -120,6 +126,8 @@ const { data: joinStudy } = useQuery<SuccessJoinStudyRoom>({
 */
 
 export const FindMyStudyRooms = async () => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}studyrooms/my`,
     {
