@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useMutation } from "@tanstack/react-query";
-import { MakeStudyRoom } from "@/shared/hook/useStudyRoom";
+import { MakeStudyRoom } from "@/shared/hook/api/useStudyRoom";
 import {
   CreateNewStudyRoomRequest,
   HitSuccessStudyRoomResponse,

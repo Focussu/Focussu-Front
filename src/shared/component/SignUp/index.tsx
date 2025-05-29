@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useMutation } from "@tanstack/react-query";
-import { JoinMember } from "@/shared/hook/useMember";
+import { JoinMember } from "@/shared/hook/api/useMember";
 import {
   MemberJoinSuccessResponse,
   IsExistingEmailResponse,

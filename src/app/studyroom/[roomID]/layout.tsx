@@ -5,7 +5,7 @@ import RoomHeader from "@/shared/component/RoomHeader";
 import RoomFooter from "@/shared/component/RoomFooter";
 
 import { useQuery } from "@tanstack/react-query";
-import { FindParticipants } from "@/shared/hook/useStudyRoom";
+import { FindParticipants } from "@/shared/hook/api/useStudyRoom";
 import { HitSuccessParticipants } from "@/shared/type/forAPI/RoomType";
 
 const geistSans = Geist({

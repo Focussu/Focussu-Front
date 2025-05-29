@@ -6,8 +6,17 @@ export interface StudyRoomResponse {
   maxCapacity: number;
 }
 
+// /studyrooms
+// 모든 스터디룸 조회
+
+export interface ForCallAllStudyRooms extends StudyRoomResponse {
+  id: number;
+}
+
+export type CallAllStudyRoomResponse = ForCallAllStudyRooms[];
+
 // /studyrooms, /studyrooms/{Id}
-// 새로운 스터디룸 생성/조회
+// 새로운 스터디룸 생성 / 단일 조회
 
 export interface CreateNewStudyRoomRequest extends StudyRoomResponse {
   profileImageUrl: string;
@@ -17,9 +26,27 @@ export interface HitSuccessStudyRoomResponse extends StudyRoomResponse {
   id: number;
 }
 
-// /api/study-rooms/{roomId}/participants
-// 스터디룸에 참여한 사용자들
+// /studyrooms/join/{id}
+// 스터디룸 참가 => 새로운 스터디룸 가입
 
-export interface HitSuccessParticipants {
-  participants: Array<string>;
+export interface BasicJoinStudyRoom {
+  studyRoomId: number;
+  memberId: number;
 }
+
+export interface SuccessJoinStudyRoom extends BasicJoinStudyRoom {}
+
+export interface FailJoinStudyRoom extends BasicJoinStudyRoom {}
+
+export interface JoinStudyRoomRequest {
+  id: number;
+}
+
+// /studyrooms/my
+// 내가 참가한 스터디룸 조회
+
+export interface ForCallAllMyStudyrooms extends StudyRoomResponse {
+  id: number;
+}
+
+export type CallAllMyStudyRoomResponse = ForCallAllMyStudyrooms[];

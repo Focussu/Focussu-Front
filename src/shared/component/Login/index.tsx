@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
 
 import { EmailInput, PasswordInput } from "@/shared/util/MemberInput";
-import { LogIn } from "@/shared/hook/useAuthentication";
+import { LogIn } from "@/shared/hook/api/useAuthentication";
 import { useReload } from "@/shared/context/userContext";
 
 import {

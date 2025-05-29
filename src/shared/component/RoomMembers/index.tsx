@@ -3,7 +3,7 @@
 import React, { useRef, useMemo } from "react";
 import MyRoom from "@/shared/component/RoomMembers/MyRoom";
 import RoomMember from "@/shared/component/RoomMembers/RoomMember";
-import { useWebRTCManager } from "@/shared/hook/function/adminRTC/useWebRTCManager";
+import { useWebRTCManager } from "@/shared/hook/function/useWebRTCManager";
 
 export default function RoomMembers() {
   const userIdRef = useRef("user_" + Math.random().toString(36).slice(2, 8));
