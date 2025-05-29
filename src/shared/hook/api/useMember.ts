@@ -59,14 +59,10 @@ export const FindMember = async (memberId: number) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}api/members/${memberId}`,
     {
-      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        memberId,
-      }),
     }
   );
   return (await res.json()) as HitSuccessResponse | NotExistingMemberResponse;

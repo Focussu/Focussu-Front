@@ -1,8 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-
 import WelcomeMessage from "@/shared/component/MainView/WelcomeMessage";
 import TodayFocusTime from "@/shared/component/MainView/TodayFocusTime";
 import ThisWeekGroup from "@/shared/component/MainView/ThisWeekGroup";
