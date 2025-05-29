@@ -1,6 +1,8 @@
 import React from "react";
 import ListImage from "@/shared/component/ListImage";
 
+import { ForCallAllStudyRooms } from "@/shared/type/forAPI/RoomType";
+
 interface GroupListProps {
   room: {
     id: number;
@@ -9,14 +11,14 @@ interface GroupListProps {
     maxCapacity: number;
     profileImageUrl: string;
   };
-  handleOpen: () => void;
+  onClick: () => void;
 }
 
-export default function GroupList({ room, handleOpen }: GroupListProps) {
+export default function GroupList({ room, onClick }: GroupListProps) {
   return (
     <div
       className="flex flex-col w-full max-w-[320px] cursor-pointer mx-auto gap-5"
-      onClick={handleOpen}
+      onClick={onClick}
     >
       <ListImage image={room?.profileImageUrl} />
       <div className="flex flex-col gap-1">

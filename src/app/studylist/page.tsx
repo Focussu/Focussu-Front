@@ -10,10 +10,16 @@ import GroupLists from "@/shared/component/GroupLists";
 import SelectModal from "@/shared/component/SelectModal";
 
 import { CallAllStudyRoom } from "@/shared/hook/api/useStudyRoom";
-import { CallAllStudyRoomResponse } from "@/shared/type/forAPI/RoomType";
+import {
+  CallAllStudyRoomResponse,
+  ForCallAllStudyRooms,
+} from "@/shared/type/forAPI/RoomType";
 
 export default function StudyGroupList() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedRoom, setSelectedRoom] = useState<ForCallAllStudyRooms | null>(
+    null
+  );
 
   const { data: allRoom } = useQuery<CallAllStudyRoomResponse>({
     queryKey: ["AllStudyRooms"],
@@ -21,9 +27,10 @@ export default function StudyGroupList() {
     staleTime: 5 * 1000,
   });
 
-  console.log(allRoom);
-
-  const handleOpen = (): void => setIsModalOpen(true);
+  const handleOpen = (room: ForCallAllStudyRooms): void => {
+    setSelectedRoom(room);
+    setIsModalOpen(true);
+  };
   const handleClose = (): void => setIsModalOpen(false);
 
   return (
@@ -47,7 +54,9 @@ export default function StudyGroupList() {
         </div>
       </div>
 
-      {isModalOpen && <SelectModal handleClose={handleClose} />}
+      {isModalOpen && selectedRoom && (
+        <SelectModal room={selectedRoom} handleClose={handleClose} />
+      )}
     </div>
   );
 }
