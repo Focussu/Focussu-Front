@@ -11,6 +11,7 @@ export interface StudyRoomResponse {
 
 export interface ForCallAllStudyRooms extends StudyRoomResponse {
   id: number;
+  profileIamgeUrl: string;
 }
 
 export type CallAllStudyRoomResponse = ForCallAllStudyRooms[];
@@ -24,6 +25,7 @@ export interface CreateNewStudyRoomRequest extends StudyRoomResponse {
 
 export interface HitSuccessStudyRoomResponse extends StudyRoomResponse {
   id: number;
+  profileIamgeUrl: string;
 }
 
 // /studyrooms/join/{id}
@@ -47,6 +49,7 @@ export interface JoinStudyRoomRequest {
 
 export interface ForCallAllMyStudyrooms extends StudyRoomResponse {
   id: number;
+  profileIamgeUrl: string;
 }
 
 export type CallAllMyStudyRoomResponse = ForCallAllMyStudyrooms[];

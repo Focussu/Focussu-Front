@@ -6,7 +6,6 @@ import {
   MaxCapacityInputProps,
   ProfileImageUrlInputProps,
 } from "@/shared/type/forDATA/ForCreate";
-import uploadToCloudinary from "@/shared/util/MakeImageURL";
 
 import { useRef } from "react";
 

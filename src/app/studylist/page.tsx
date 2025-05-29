@@ -1,14 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 import SearchBar from "@/shared/component/SearchBar";
 import LeftButton from "@/shared/component/LeftButton";
 import RightButton from "@/shared/component/RightButton";
 import GroupLists from "@/shared/component/GroupLists";
 import SelectModal from "@/shared/component/SelectModal";
 
+import { CallAllStudyRoom } from "@/shared/hook/api/useStudyRoom";
+import { CallAllStudyRoomResponse } from "@/shared/type/forAPI/RoomType";
+
 export default function StudyGroupList() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const { data: allRoom } = useQuery<CallAllStudyRoomResponse>({
+    queryKey: ["AllStudyRooms"],
+    queryFn: () => CallAllStudyRoom(),
+    staleTime: 5 * 1000,
+  });
+
+  console.log(allRoom);
 
   const handleOpen = (): void => setIsModalOpen(true);
   const handleClose = (): void => setIsModalOpen(false);
