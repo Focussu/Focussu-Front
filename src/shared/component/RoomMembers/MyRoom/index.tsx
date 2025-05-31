@@ -1,15 +1,29 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+
 import { initCam } from "@/shared/hook/function/useGetWebCam";
+import { useUserStore } from "@/shared/store/setUserStore";
+
+import { TodayStudyTime } from "@/shared/type/forAPI/StudyType";
+import { FindTodayStudyTime } from "@/shared/hook/api/useStudyPart";
+import { formatDate } from "@/shared/util/formatDate";
 
 export default function MyRoom({ stream }: { stream: MediaStream | null }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const { user } = useUserStore();
 
   useEffect(() => {
     initCam(videoRef);
   }, []);
+
+  const { data: todayTime } = useQuery<TodayStudyTime>({
+    queryKey: ["Today-Study-Time"],
+    queryFn: () => FindTodayStudyTime(),
+    staleTime: 5 * 1000,
+  });
 
   return (
     <Link
@@ -25,8 +39,12 @@ export default function MyRoom({ stream }: { stream: MediaStream | null }) {
       ></video>
       <div className="w-[65%] flex justify-between mt-3 mb-4 text-sm">
         <div className="flex gap-3 items-center">
-          <div className="font-semibold">오승민</div>
-          <div className="text-xs text-gray-600">2h 30m 20s</div>
+          <div className="font-semibold">{user?.name}</div>
+          {todayTime && (
+            <div className="text-xs text-gray-600">
+              {formatDate(todayTime.seconds)}
+            </div>
+          )}{" "}
         </div>
         <div className="px-2 py-1 text-[10px] rounded border border-gray-400">
           ✅ 현재 활동 중

@@ -83,16 +83,15 @@ export const uploadToServer = async (blob: Blob) => {
   formData.append("file", file);
 
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_AI_SERVER_URL}/predict/face`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
-    console.log("업로드 성공");
-    console.log(response.json());
+    // // const response = await fetch(
+    // //   `${process.env.NEXT_PUBLIC_AI_SERVER_URL}/predict/face`,
+    // //   {
+    // //     method: "POST",
+    // //     body: formData,
+    // //   }
+    // // );
+    // console.log("업로드 성공");
+    // console.log(response.json());
   } catch (err) {
     console.error("업로드 실패:", err);
   }

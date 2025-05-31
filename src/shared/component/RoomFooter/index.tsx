@@ -2,15 +2,49 @@
 
 import React from "react";
 import Image from "next/image";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+
+import { useUserStore } from "@/shared/store/setUserStore";
+
+import { formatDate } from "@/shared/util/formatDate";
+import {
+  ThisWeekStudyTime,
+  TodayStudyTime,
+  TotalStudyTime,
+} from "@/shared/type/forAPI/StudyType";
+import {
+  FindThisWeekStudyTime,
+  FindTodayStudyTime,
+  FindTotalStudyTime,
+} from "@/shared/hook/api/useStudyPart";
 
 export default function RoomFooter() {
   const router = useRouter();
-
   const [isPause, setIsPause] = useState<boolean>(false);
 
-  // 임시 함수
+  const { user } = useUserStore();
+
+  const { data: totalTime } = useQuery<TotalStudyTime>({
+    queryKey: ["Total-Study-Time"],
+    queryFn: () => FindTotalStudyTime(),
+    staleTime: 5 * 1000,
+  });
+
+  const { data: thisWeekTime } = useQuery<ThisWeekStudyTime>({
+    queryKey: ["This-Week-Time"],
+    queryFn: () => FindThisWeekStudyTime(),
+    staleTime: 5 * 1000,
+  });
+
+  const { data: todayTime } = useQuery<TodayStudyTime>({
+    queryKey: ["Today-Study-Time"],
+    queryFn: () => FindTodayStudyTime(),
+    staleTime: 5 * 1000,
+  });
+
   const handlePlay = (): void => setIsPause((prev) => !prev);
 
   return (
@@ -55,18 +89,30 @@ export default function RoomFooter() {
       <div className="flex-1 h-full mr-[30px] flex justify-end items-center">
         <div className="w-[380px] h-[90px] border-[1.5] bg-white flex flex-col rounded-lg">
           <div className="flex flex-row gap-[20px] ml-[12px] mt-[7px]">
-            <div className="text-[15px] font-bold">오승민</div>
+            <div className="text-[15px] font-bold">{user?.name}</div>
             <div className="w-[80px] h-[22px] text-[10px] rounded-lg border-1 border-gray-400 justify-center flex items-center ">
               ✅ 현재 활동 중
             </div>
           </div>
           <div className="flex h-full mx-[10px] mt-[5px]">
             <div className="flex-1 flex flex-col gap-[5px]">
-              <div className="text-[13px]">총 집중시간 : 10293h 29m 31s</div>
-              <div className="text-[13px]">금주 집중시간 : 12h 30m 20s</div>
+              {totalTime && (
+                <div className="text-[13px]">
+                  총 집중시간 : {formatDate(totalTime.seconds)}
+                </div>
+              )}
+              {thisWeekTime && (
+                <div className="text-[13px]">
+                  금주 집중시간 : {formatDate(thisWeekTime.seconds)}
+                </div>
+              )}
             </div>
             <div className="flex-1 flex flex-col gap-[5px] ml-[20px]">
-              <div className="text-[13px]">오늘 집중시간 : 2h 30m 20s</div>
+              {todayTime && (
+                <div className="text-[13px]">
+                  오늘 집중시간 : {formatDate(todayTime.seconds)}
+                </div>
+              )}
               <div className="text-[13px]">현재 집중도 : 87점</div>
             </div>
           </div>

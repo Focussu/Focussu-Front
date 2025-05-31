@@ -9,6 +9,7 @@ import {
   NotExistingMemberResponse,
   FindMyInfo,
   MemberErrorResponse,
+  FindId,
 } from "@/shared/type/forAPI/MemberType";
 
 export const JoinMember = async (
@@ -120,4 +121,19 @@ export const MyInfo = async () => {
     }
   );
   return (await res.json()) as FindMyInfo | MemberErrorResponse;
+};
+
+export const FindIdByEmail = async (email: string) => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}api/members/member-id?email=${email}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return (await res.json()) as FindId | MemberErrorResponse;
 };

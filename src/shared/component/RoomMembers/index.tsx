@@ -13,6 +13,8 @@ export default function RoomMembers() {
     ...remoteStreams,
   ];
 
+  console.log(remoteStreams);
+
   return (
     <div className="w-full h-full overflow-x-hidden px-4 py-6">
       <div
@@ -23,7 +25,7 @@ export default function RoomMembers() {
           member.id === "me" ? (
             <MyRoom key="me" stream={member.stream} />
           ) : (
-            <RoomMember key={member.id} stream={member.stream} />
+            <RoomMember key={member.id} stream={member.stream} id={member.id} />
           )
         )}
       </div>

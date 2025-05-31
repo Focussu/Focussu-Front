@@ -42,3 +42,10 @@ export interface NotExistingMemberResponse extends MemberErrorResponse {}
 export interface FindMyInfo extends MemberBasicSchema {
   id: number;
 }
+
+// /api/members/member-id
+// 이메일로 내 member-id 조회
+
+export interface FindId {
+  member_id: number;
+}
