@@ -26,11 +26,7 @@ export default function StudyroomLayout({
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       {user && (
-        <WebRTCProvider
-          roomId="1"
-          userId={user.id.toString()}
-          socketUrl={SIGNAL_URL}
-        >
+        <WebRTCProvider roomId="1" userId={user.email} socketUrl={SIGNAL_URL}>
           <div className="h-screen w-screen flex flex-col overflow-hidden">
             <div className="shrink-0">
               <RoomHeader />
