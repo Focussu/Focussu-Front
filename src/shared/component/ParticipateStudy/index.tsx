@@ -15,6 +15,8 @@ export default function ParticipateStudy() {
     staleTime: 5 * 1000,
   });
 
+  console.log(myStudyRoom);
+
   return (
     <div className="bg-white border-0 rounded-lg w-full h-full flex flex-col justify-start items-center px-[10px]">
       <div className="w-full justify-start flex font-bold text-[15px] mt-[16px] ml-[25px]">

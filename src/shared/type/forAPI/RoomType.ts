@@ -49,7 +49,7 @@ export interface JoinStudyRoomRequest {
 
 export interface ForCallAllMyStudyrooms extends StudyRoomResponse {
   id: number;
-  profileIamgeUrl: string;
+  profileImageUrl: string;
 }
 
 export type CallAllMyStudyRoomResponse = ForCallAllMyStudyrooms[];
