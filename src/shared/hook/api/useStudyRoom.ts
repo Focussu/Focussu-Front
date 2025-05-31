@@ -100,16 +100,13 @@ export const JoinStudyRoom = async (id: number) => {
   const token = localStorage.getItem("token");
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}join/${id}`,
+    `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}studyrooms/join/${id}`,
     {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        id,
-      } satisfies JoinStudyRoomRequest),
     }
   );
 

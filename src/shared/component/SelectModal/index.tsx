@@ -3,6 +3,11 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
+import { useMutation } from "@tanstack/react-query";
+
+import { SuccessJoinStudyRoom } from "@/shared/type/forAPI/RoomType";
+import { JoinStudyRoom } from "@/shared/hook/api/useStudyRoom";
+
 interface SelectModalProps {
   room: {
     id: number;
@@ -16,6 +21,28 @@ interface SelectModalProps {
 
 export default function SelectModal({ room, handleClose }: SelectModalProps) {
   const router = useRouter();
+
+  const { mutate, data, isError } = useMutation<
+    SuccessJoinStudyRoom,
+    Error,
+    {
+      id: number;
+    }
+  >({
+    mutationFn: () => JoinStudyRoom(room.id),
+  });
+
+  const handleParticipate = (id: number) => {
+    try {
+      mutate({
+        id,
+      });
+
+      router.push("/mypage");
+    } catch (err) {
+      console.error("이미지 업로드 또는 방 생성 실패:", err);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm px-4">
@@ -47,7 +74,7 @@ export default function SelectModal({ room, handleClose }: SelectModalProps) {
 
           <div className="flex justify-center gap-4">
             <button
-              onClick={() => router.push("/mypage")}
+              onClick={() => handleParticipate(room?.id)}
               className="bg-black text-white text-[16px] px-5 py-2 rounded-md hover:opacity-90"
             >
               참여
