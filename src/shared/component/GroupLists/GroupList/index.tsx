@@ -1,8 +1,6 @@
 import React from "react";
 import ListImage from "@/shared/component/ListImage";
 
-import { ForCallAllStudyRooms } from "@/shared/type/forAPI/RoomType";
-
 interface GroupListProps {
   room: {
     id: number;

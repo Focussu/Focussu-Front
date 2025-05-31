@@ -180,6 +180,8 @@ export function useWebRTCManager(
 
     peer.ontrack = (e) => {
       const incoming = e.streams[0];
+      if (peerId === userId) return;
+
       setRemoteStreams((prev) => {
         const exists = prev.some((s) => s.id === peerId);
         if (exists) return prev;
