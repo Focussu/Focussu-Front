@@ -174,6 +174,7 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
         landmarkBatchRef.current = []; // 배치 즉시 초기화
 
         const payload = {
+          ticketNumber: 1,
           landmarks: batchToSend.map(item => item.landmarks),
           blendshapes: batchToSend.map(item => item.blendshapes),
           timestamp: Date.now()
