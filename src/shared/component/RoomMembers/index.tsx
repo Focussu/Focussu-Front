@@ -1,25 +1,12 @@
 "use client";
 
-import React, { useRef, useMemo } from "react";
 import MyRoom from "@/shared/component/RoomMembers/MyRoom";
 import RoomMember from "@/shared/component/RoomMembers/RoomMember";
-import { useWebRTCManager } from "@/shared/hook/function/useWebRTCManager";
+
+import { useWebRTC } from "@/shared/context/webRTCContext";
 
 export default function RoomMembers() {
-  const userIdRef = useRef("user_" + Math.random().toString(36).slice(2, 8));
-  console.log("userId : ", userIdRef);
-
-  const userId = userIdRef.current;
-  const SIGNAL_URL = process.env.NEXT_PUBLIC_SIGNAL_SERVER_URL!;
-
-  const { localStream, remoteStreams } = useWebRTCManager(
-    "1",
-    userId,
-    SIGNAL_URL
-  );
-
-  console.log("localStream : ", localStream);
-  console.log("remoteStreams : ", remoteStreams);
+  const { localStream, remoteStreams } = useWebRTC();
 
   return (
     <div className="w-full h-full overflow-x-hidden px-4 py-6">
