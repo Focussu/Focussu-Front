@@ -25,7 +25,7 @@ export interface CreateNewStudyRoomRequest extends StudyRoomResponse {
 
 export interface HitSuccessStudyRoomResponse extends StudyRoomResponse {
   id: number;
-  profileIamgeUrl: string;
+  profileImageUrl: string;
 }
 
 // /studyrooms/join/{id}

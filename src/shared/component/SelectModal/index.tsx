@@ -37,12 +37,13 @@ export default function SelectModal({ room, handleClose }: SelectModalProps) {
       mutate({
         id,
       });
-
       router.push("/mypage");
     } catch (err) {
       console.error("이미지 업로드 또는 방 생성 실패:", err);
     }
   };
+
+  console.log(room);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm px-4">

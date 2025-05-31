@@ -6,10 +6,20 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { useRef, useEffect } from "react";
 
-import { FindId, MemberErrorResponse } from "@/shared/type/forAPI/MemberType";
-import { FindIdByEmail } from "@/shared/hook/api/useMember";
-import { TodayStudyTime } from "@/shared/type/forAPI/StudyType";
-import { FindTodayStudyTime } from "@/shared/hook/api/useStudyPart";
+import {
+  FindId,
+  HitSuccessResponse,
+  MemberErrorResponse,
+  NotExistingMemberResponse,
+} from "@/shared/type/forAPI/MemberType";
+import { OtherTodayStudyTime } from "@/shared/type/forAPI/StudyType";
+import { FindIdByEmail, FindMember } from "@/shared/hook/api/useMember";
+import { FindOtherTodayStudyTime } from "@/shared/hook/api/useStudyPart";
+import { formatDate } from "@/shared/util/formatDate";
+
+function isFindId(data: any): data is FindId {
+  return data && typeof data === "object" && "member_id" in data;
+}
 
 export default function RoomMember({
   stream,
@@ -32,6 +42,25 @@ export default function RoomMember({
     staleTime: 5 * 1000,
   });
 
+  const { data: user } = useQuery<
+    HitSuccessResponse | NotExistingMemberResponse
+  >({
+    queryKey: ["User-Info", isFindId(userId) ? userId.member_id : null],
+    queryFn: () => {
+      if (!isFindId(userId)) return Promise.reject("잘못된 ID");
+      return FindMember(userId.member_id);
+    },
+    enabled: isFindId(userId),
+  });
+
+  const { data: otherTodayTime } = useQuery<
+    OtherTodayStudyTime | MemberErrorResponse
+  >({
+    queryKey: ["Other-Today-Study"],
+    queryFn: () => FindOtherTodayStudyTime(id),
+    staleTime: 5 * 1000,
+  });
+
   return (
     <>
       {userId && "member_id" in userId && (
@@ -48,8 +77,14 @@ export default function RoomMember({
           />
           <div className="w-[65%] flex justify-between mt-3 mb-4 text-sm">
             <div className="flex gap-3 items-center">
-              <div className="font-semibold">오승민</div>
-              <div className="text-xs text-gray-600">2h 30m 20s</div>
+              {user && "name" in user && (
+                <div className="font-semibold">{user?.name}</div>
+              )}
+              {otherTodayTime && "seconds" in otherTodayTime && (
+                <div className="text-xs text-gray-600">
+                  {formatDate(otherTodayTime.seconds)}
+                </div>
+              )}
             </div>
             <div className="px-2 py-1 text-[10px] rounded border border-gray-400">
               ✅ 현재 활동 중

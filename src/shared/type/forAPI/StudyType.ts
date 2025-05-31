@@ -28,6 +28,11 @@ export interface TotalStudyTime extends BasicTimeResponse {}
 
 export interface TodayStudyTime extends BasicTimeResponse {}
 
+// /study/time/today/other
+// 특정 사람의 오늘 공부 시간
+
+export interface OtherTodayStudyTime extends BasicTimeResponse {}
+
 // /study/inactive-seconds
 // 최근 접속까지 걸린 시간
 

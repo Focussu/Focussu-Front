@@ -44,7 +44,7 @@ export default function MyRoom({ stream }: { stream: MediaStream | null }) {
             <div className="text-xs text-gray-600">
               {formatDate(todayTime.seconds)}
             </div>
-          )}{" "}
+          )}
         </div>
         <div className="px-2 py-1 text-[10px] rounded border border-gray-400">
           ✅ 현재 활동 중
