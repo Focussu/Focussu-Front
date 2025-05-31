@@ -7,7 +7,8 @@ import { useMutation } from "@tanstack/react-query";
 
 import { EmailInput, PasswordInput } from "@/shared/util/MemberInput";
 import { LogIn } from "@/shared/hook/api/useAuthentication";
-import { useReload } from "@/shared/context/userContext";
+import { useReload, fetchAndSetUser } from "@/shared/context/userContext";
+import { useUserStore } from "@/shared/store/setUserStore";
 
 import {
   LoginSuccessResponse,
@@ -21,6 +22,7 @@ export default function Login() {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const { reload, setReload } = useReload();
+  const { setUser } = useUserStore();
 
   const router = useRouter();
 
@@ -30,9 +32,11 @@ export default function Login() {
     { email: string; password: string }
   >({
     mutationFn: ({ email, password }) => LogIn(email, password),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if ("accessToken" in data) {
         localStorage.setItem("token", data.accessToken);
+
+        await fetchAndSetUser(setUser);
         router.push("/");
         setReload(!reload);
       }

@@ -7,6 +7,8 @@ import {
   IsExistingEmailResponse,
   HitSuccessResponse,
   NotExistingMemberResponse,
+  FindMyInfo,
+  MemberErrorResponse,
 } from "@/shared/type/forAPI/MemberType";
 
 export const JoinMember = async (
@@ -104,3 +106,18 @@ const { data: user } = useQuery<null | NotExistingMemberResponse>({
   staleTime: 5 * 1000,
 });
 */
+
+export const MyInfo = async () => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}api/members/my`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return (await res.json()) as FindMyInfo | MemberErrorResponse;
+};

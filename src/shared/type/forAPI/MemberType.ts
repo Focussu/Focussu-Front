@@ -35,3 +35,10 @@ export interface HitSuccessResponse extends MemberBasicSchema {
 }
 
 export interface NotExistingMemberResponse extends MemberErrorResponse {}
+
+// /api/members/my
+// 내 정보 조회
+
+export interface FindMyInfo extends MemberBasicSchema {
+  id: number;
+}

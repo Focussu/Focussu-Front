@@ -3,12 +3,8 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { HowRecentTime } from "@/shared/type/forAPI/StudyType";
-import { FindMember } from "@/shared/hook/api/useMember";
 import { FindHowRecentTime } from "@/shared/hook/api/useStudyPart";
-import {
-  HitSuccessResponse,
-  NotExistingMemberResponse,
-} from "@/shared/type/forAPI/MemberType";
+import { useUserStore } from "@/shared/store/setUserStore";
 
 export default function WelcomeMessage() {
   const { data: time } = useQuery<HowRecentTime>({
@@ -17,13 +13,7 @@ export default function WelcomeMessage() {
     staleTime: 5 * 1000,
   });
 
-  const { data: user } = useQuery<
-    HitSuccessResponse | NotExistingMemberResponse
-  >({
-    queryKey: ["Find-Member"],
-    queryFn: () => FindMember(time!.memberId),
-    staleTime: 5 * 1000,
-  });
+  const { user } = useUserStore();
 
   const formatDuration = (seconds: number) => {
     const days = Math.floor(seconds / (3600 * 24));

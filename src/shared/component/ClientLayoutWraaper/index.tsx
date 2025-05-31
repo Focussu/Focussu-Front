@@ -7,6 +7,8 @@ import Header from "@/shared/component/Header";
 import NotLoginHeader from "@/shared/component/Header/NotLoginHeader";
 
 import { ReloadContext, TokenContext } from "@/shared/context/userContext";
+import { useUserStore } from "@/shared/store/setUserStore";
+import { fetchAndSetUser } from "@/shared/context/userContext";
 
 export default function ClientLayoutWrapper({
   children,
@@ -15,8 +17,11 @@ export default function ClientLayoutWrapper({
 }) {
   const [token, setToken] = useState<string | null>(null);
   const [reload, setReload] = useState<boolean>(false);
+  const [loadingUser, setLoadingUser] = useState<boolean>(true);
+
   const router = useRouter();
   const pathname = usePathname();
+  const { setUser } = useUserStore();
 
   const shouldHideHeader = pathname.startsWith("/studyroom/");
 
@@ -31,7 +36,13 @@ export default function ClientLayoutWrapper({
     if (!storedToken && !isPublicPath) {
       router.replace("/login");
     }
-  }, [reload, pathname, router]);
+
+    if (storedToken) {
+      fetchAndSetUser(setUser).finally(() => setLoadingUser(false));
+    } else {
+      setLoadingUser(false);
+    }
+  }, [reload, pathname, router, setUser]);
 
   return (
     <ReloadContext.Provider value={{ reload, setReload }}>

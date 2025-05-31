@@ -1,13 +1,26 @@
+"use client";
+
 import React from "react";
+import { useUserStore } from "@/shared/store/setUserStore";
 
 export default function UserProfile() {
+  const { user } = useUserStore();
+
   return (
     <div className="bg-white border-0 rounded-lg w-full h-full flex flex-col justify-center items-center px-4 overflow-hidden">
       <div className="flex flex-row flex-nowrap justify-center items-center gap-6 sm:gap-8 w-auto h-auto max-w-full overflow-hidden">
-        <div className="bg-gray-500 rounded-lg w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] flex-shrink-0" />
+        {user && "profileImageUrl" in user && (
+          <img
+            src={user.profileImageUrl}
+            alt="이미지입니다."
+            className="rounded-lg w-[150px] h-[150px] sm:w-[100px] sm:h-[100px] flex-shrink-0"
+          />
+        )}
 
         <div className="flex flex-col justify-center sm:items-start items-center text-center sm:text-left flex-shrink min-w-0">
-          <div className="text-base sm:text-2xl font-bold truncate">오승민</div>
+          <div className="text-base sm:text-2xl font-bold truncate">
+            {user && "name" in user && user.name}
+          </div>
 
           <div className="text-[10px] sm:text-xs text-gray-600 mt-2 sm:mt-3 mb-1 truncate">
             총 집중시간 : 10293h 29m 31s
