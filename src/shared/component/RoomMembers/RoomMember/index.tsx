@@ -63,7 +63,7 @@ export default function RoomMember({
 
   return (
     <>
-      {userId && "member_id" in userId && (
+      {userId && "member_id" in userId && videoRef && (
         <Link
           href={`/studyroom/1/${userId.member_id}`}
           className="w-full aspect-[415/225] rounded-lg bg-white flex flex-col justify-center items-center shadow-sm"
