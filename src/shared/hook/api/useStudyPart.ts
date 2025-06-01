@@ -3,6 +3,7 @@ import {
   TotalStudyTime,
   TodayStudyTime,
   OtherTodayStudyTime,
+  DailyTimeResponse,
   HowRecentTime,
   ConThisWeekStudyTime,
   ConTotalStudyTime,
@@ -71,6 +72,19 @@ export const FindOtherTodayStudyTime = async (email: string) => {
   );
 
   return (await res.json()) as OtherTodayStudyTime;
+};
+
+export const FindMyDailyTime = async () => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}study/time/daily`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return (await res.json()) as DailyTimeResponse;
 };
 
 export const FindHowRecentTime = async () => {

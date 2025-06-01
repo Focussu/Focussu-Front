@@ -199,8 +199,10 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
           const batchToSend = [...landmarkBatchRef.current];
           landmarkBatchRef.current = []; // 배치 즉시 초기화
 
+          const ticket_id = sessionStorage.getItem("ticketNumber");
+
           const payload = {
-            ticketNumber: 1,
+            ticketNumber: ticket_id,
             landmarks: batchToSend.map((item) => item.landmarks),
             blendshapes: batchToSend.map((item) => item.blendshapes),
             timestamp: Date.now(),

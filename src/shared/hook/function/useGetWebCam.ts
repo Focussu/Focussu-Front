@@ -78,18 +78,23 @@ export const base64ToBlob = (base64Data: string): Blob => {
 };
 
 export const uploadToServer = async (blob: Blob) => {
-  const file = new File([blob], "capture.jpg", { type: "image/jpg" });
+  const ticketId = sessionStorage.getItem("ticketNumber");
+  const time = new Date();
+
+  const file = new File([blob], `${ticketId}_${time}.jpg`, {
+    type: "image/jpg",
+  });
   const formData = new FormData();
   formData.append("file", file);
 
   try {
-    // // const response = await fetch(
-    // //   `${process.env.NEXT_PUBLIC_AI_SERVER_URL}/predict/face`,
-    // //   {
-    // //     method: "POST",
-    // //     body: formData,
-    // //   }
-    // // );
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_AI_SERVER_URL}/image`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
   } catch (err) {
     console.error("업로드 실패:", err);
   }

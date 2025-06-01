@@ -66,6 +66,13 @@ export function useWebRTCManager(
               break;
             }
 
+            case "TICKET_CREATED": {
+              const from = msg.payload;
+              console.log(from);
+
+              sessionStorage.setItem("ticketNumber", from.ticketId);
+            }
+
             case "OFFER": {
               const from = msg.payload.from;
               const peer = createPeer(from);

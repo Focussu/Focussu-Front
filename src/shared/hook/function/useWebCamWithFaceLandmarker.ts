@@ -6,9 +6,11 @@ import {
   FaceLandmarkResult,
   TakeResponse,
 } from "./useFaceLandmarker";
+import { captureCam } from "./useGetWebCam";
 
 export interface UseWebCamWithFaceLandmarkerReturn {
   videoRef: React.RefObject<HTMLVideoElement | null>;
+  imgRef: React.RefObject<HTMLImageElement | null>;
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
   isWebcamActive: boolean;
   isLandmarkerLoading: boolean;
@@ -26,6 +28,7 @@ export interface UseWebCamWithFaceLandmarkerReturn {
 export const useWebCamWithFaceLandmarker =
   (): UseWebCamWithFaceLandmarkerReturn => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
+    const imgRef = useRef<HTMLImageElement | null>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const streamRef = useRef<MediaStream | null>(null);
     const animationFrameRef = useRef<number | null>(null);
@@ -54,7 +57,6 @@ export const useWebCamWithFaceLandmarker =
 
     const handleCamActive = () => setIsWebcamActive(true);
     const handleDetectActive = () => setIsDetectionActive(true);
-    const handleMarkerActive = () => isDetectionActiveRef;
 
     // 웹캠 시작
     const startWebcam = useCallback(async () => {
@@ -76,6 +78,8 @@ export const useWebCamWithFaceLandmarker =
           videoRef.current.srcObject = stream;
           streamRef.current = stream;
           setIsWebcamActive(true);
+
+          captureCam(videoRef, imgRef);
         }
       } catch (err) {
         console.error("웹캠 시작 실패:", err);
@@ -221,6 +225,7 @@ export const useWebCamWithFaceLandmarker =
 
     return {
       videoRef,
+      imgRef,
       canvasRef,
       isWebcamActive,
       isLandmarkerLoading,

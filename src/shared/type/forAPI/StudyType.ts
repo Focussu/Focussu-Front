@@ -33,6 +33,16 @@ export interface TodayStudyTime extends BasicTimeResponse {}
 
 export interface OtherTodayStudyTime extends BasicTimeResponse {}
 
+// /study/time/daily
+// 일자별 공부 시간
+
+export interface DailyBasicResponse {
+  date: string;
+  time: number;
+}
+
+export type DailyTimeResponse = DailyBasicResponse[];
+
 // /study/inactive-seconds
 // 최근 접속까지 걸린 시간
 

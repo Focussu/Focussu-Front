@@ -1,7 +1,11 @@
 "use client";
 
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
+
 import { format, subDays, startOfWeek, isSameDay } from "date-fns";
+import { DailyTimeResponse } from "@/shared/type/forAPI/StudyType";
+import { FindMyDailyTime } from "@/shared/hook/api/useStudyPart";
 
 const today = new Date();
 const totalDays = 7 * 53;
@@ -30,6 +34,14 @@ const getColor = (level: number): string => {
 };
 
 export default function GrassBoard() {
+  const { data: dailyTime } = useQuery<DailyTimeResponse>({
+    queryKey: ["My-Daily-Time"],
+    queryFn: () => FindMyDailyTime(),
+    staleTime: 5 * 1000,
+  });
+
+  console.log(dailyTime);
+
   const columns = Array.from({ length: 53 }, (_, colIdx) => {
     return allDates.slice(colIdx * 7, (colIdx + 1) * 7);
   });
