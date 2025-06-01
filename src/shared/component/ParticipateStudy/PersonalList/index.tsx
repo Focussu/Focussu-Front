@@ -13,11 +13,17 @@ export default function PersonalList({
       <img
         src={room?.profileImageUrl}
         alt="이미지 없음"
-        className="w-[76px] h-[70px] bg-gray-400 rounded-lg"
+        className="w-[70px] h-[70px] bg-gray-400 rounded-lg"
       />
       <div className="flex justify-between w-full">
         <div className="flex flex-col ml-[20px]">
           <div className="font-medium text-[15px] mb-[10px]">{room?.name}</div>
+          <div className="text-[12px] text-gray-600 mb-[3px]">
+            {room?.description}
+          </div>
+          <div className="text-[12px] text-gray-800">
+            정원 : {room?.maxCapacity}
+          </div>
         </div>
         <div className="flex flex-col gap-[10px] mt-[10px]">
           <Link

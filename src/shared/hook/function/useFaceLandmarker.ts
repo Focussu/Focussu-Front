@@ -12,6 +12,13 @@ export interface FaceLandmarkResult {
   blendshapes: any[];
 }
 
+export interface TakeResponse {
+  landmark_score: Float16Array;
+  blendshape_score: Float16Array;
+  confidence: Float16Array;
+  processing_time: Float16Array;
+}
+
 export interface UseFaceLandmarkerReturn {
   faceLandmarker: FaceLandmarker | null;
   isLoading: boolean;
@@ -22,6 +29,7 @@ export interface UseFaceLandmarkerReturn {
     results: FaceLandmarkResult
   ) => void;
   sendLandmarksToServer: (results: FaceLandmarkResult) => Promise<void>;
+  aiResponse: TakeResponse | null;
 }
 
 export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
@@ -30,6 +38,8 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [aiResponse, setAiResponse] = useState<TakeResponse | null>(null);
+
   const drawingUtilsRef = useRef<DrawingUtils | null>(null);
 
   // 배치 처리를 위한 ref 사용 (동기적 처리)
@@ -47,14 +57,13 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
 
         // FilesetResolver를 사용하여 WASM 파일 로드
         const vision = await FilesetResolver.forVisionTasks(
-          "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
+          `${process.env.NEXT_PUBLIC_WASM_URL}`
         );
 
         // Face Landmarker 생성
         const landmarker = await FaceLandmarker.createFromOptions(vision, {
           baseOptions: {
-            modelAssetPath:
-              "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
+            modelAssetPath: `${process.env.NEXT_PUBLIC_MODEL_PATH_URL}`,
             delegate: "GPU",
           },
           runningMode: "VIDEO",
@@ -214,6 +223,7 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
             }
 
             const result = await response.json();
+            setAiResponse(result as TakeResponse);
           } catch (err) {
           } finally {
             isSendingRef.current = false; // 전송 완료
@@ -285,5 +295,6 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
     detectFace,
     drawLandmarks,
     sendLandmarksToServer,
+    aiResponse,
   };
 };

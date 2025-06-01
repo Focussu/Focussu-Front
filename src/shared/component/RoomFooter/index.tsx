@@ -20,12 +20,24 @@ import {
   FindTodayStudyTime,
   FindTotalStudyTime,
 } from "@/shared/hook/api/useStudyPart";
+import { useAnalyzeAI } from "@/shared/context/analyzeAIContext";
 
-export default function RoomFooter() {
+interface RoomFooterProps {
+  handleStartWebcam: () => void;
+  handleStopWebcam: () => void;
+  handleToggleDetection: () => void;
+}
+
+export default function RoomFooter({
+  handleStartWebcam,
+  handleStopWebcam,
+  handleToggleDetection,
+}: RoomFooterProps) {
   const router = useRouter();
   const [isPause, setIsPause] = useState<boolean>(false);
 
   const { user } = useUserStore();
+  const value = useAnalyzeAI();
 
   const { data: totalTime } = useQuery<TotalStudyTime>({
     queryKey: ["Total-Study-Time"],
@@ -45,10 +57,34 @@ export default function RoomFooter() {
     staleTime: 5 * 1000,
   });
 
-  const handlePlay = (): void => setIsPause((prev) => !prev);
+  const handlePlay = (): void => {
+    setIsPause((prev) => !prev);
+
+    if (isPause) {
+      handleStopWebcam();
+    } else {
+      handleStartWebcam();
+      handleToggleDetection();
+    }
+  };
 
   return (
-    <div className="w-full bg-[#E0E0E0] h-[125px] flex items-center justify-center">
+    <div className="w-full bg-[#E0E0E0] h-[125px] flex items-center justify-center z-">
+      {/* 가상 캔버스 생성 */}
+      <video
+        ref={value.videoRef}
+        autoPlay
+        playsInline
+        muted
+        className="fixed w-[1px] h-[1px] opacity-0 pointer-events-none"
+        style={{ top: 0, left: 0 }}
+      />
+
+      <canvas
+        ref={value.canvasRef}
+        className="fixed w-[1px] h-[1px] opacity-0 pointer-events-none"
+        style={{ top: 0, left: 0 }}
+      />
       <div className="flex-1 h-full flex ml-[30px] justify-start items-center">
         <Image
           onClick={() => router.push("/")}
@@ -113,7 +149,14 @@ export default function RoomFooter() {
                   오늘 집중시간 : {formatDate(todayTime.seconds)}
                 </div>
               )}
-              <div className="text-[13px]">현재 집중도 : 87점</div>
+              <div className="text-[13px]">
+                현재 집중도 :
+                {value.aiResponse?.confidence
+                  ? Math.round(Number(value.aiResponse.confidence) * 10000) /
+                    100
+                  : 0}
+                점
+              </div>
             </div>
           </div>
         </div>

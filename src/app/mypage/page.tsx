@@ -2,8 +2,7 @@ import React from "react";
 import UserProfile from "@/shared/component/UserProfile";
 import ParticipateStudy from "@/shared/component/ParticipateStudy";
 import PersonalAnalysis from "@/shared/component/PersonalAnalysis";
-import FriendLists from "@/shared/component/FriendLists";
-import Ranking from "@/shared/component/Ranking";
+import GrassBoard from "@/shared/component/GrassBoard";
 
 export default function MyPage() {
   return (
@@ -16,19 +15,12 @@ export default function MyPage() {
           <ParticipateStudy />
         </div>
       </div>
-
-      <div className="flex flex-col w-full lg:w-1/3 p-10 overflow-hidden">
-        <div className="flex flex-col bg-white rounded-xl p-4 pt-2 h-full">
+      <div className="flex flex-col w-full lg:w-2/3 p-10 gap-10 overflow-hidden">
+        <div className="flex flex-col bg-white rounded-xl p-4 pt-2 h-2/3">
           <PersonalAnalysis />
         </div>
-      </div>
-
-      <div className="flex flex-col w-full lg:w-1/3 p-10 gap-10 overflow-hidden">
-        <div className="flex flex-col bg-white rounded-xl p-4 pt-2 h-1/2">
-          <FriendLists />
-        </div>
-        <div className="flex flex-col bg-white rounded-xl p-4 pt-1 h-1/2">
-          <Ranking />
+        <div className="flex flex-col bg-white rounded-xl p-4 pt-2 h-1/3">
+          <GrassBoard />
         </div>
       </div>
     </div>

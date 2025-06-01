@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 import ClientLayoutWrapper from "@/shared/component/ClientLayoutWraaper";
+import { AnalyzeAIProvider } from "@/shared/context/analyzeAIContext";
 import Providers from "@/shared/util/provider";
 
 export const metadata: Metadata = {
@@ -30,9 +31,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-black min-h-screen`}
       >
-        <Providers>
-          <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
-        </Providers>
+        <AnalyzeAIProvider autoStart autoDetect>
+          <Providers>
+            <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
+          </Providers>
+        </AnalyzeAIProvider>
       </body>
     </html>
   );

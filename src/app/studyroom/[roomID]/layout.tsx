@@ -4,8 +4,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import RoomHeader from "@/shared/component/RoomHeader";
 import RoomFooter from "@/shared/component/RoomFooter";
 
+import { useState, useEffect } from "react";
 import { WebRTCProvider } from "@/shared/context/webRTCContext";
 import { useUserStore } from "@/shared/store/setUserStore";
+import { useAnalyzeAI } from "@/shared/context/analyzeAIContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +25,28 @@ export default function StudyroomLayout({
   const { user } = useUserStore();
   const SIGNAL_URL = process.env.NEXT_PUBLIC_SIGNAL_SERVER_URL!;
 
+  const value = useAnalyzeAI();
+
+  const [autoStart, setAutoStart] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (autoStart) {
+      value.startWebcam();
+    }
+  }, [autoStart, value.startWebcam]);
+
+  const handleStartWebcam = async () => {
+    await value.startWebcam();
+  };
+
+  const handleStopWebcam = () => {
+    value.stopWebcam();
+  };
+
+  const handleToggleDetection = () => {
+    value.toggleLandmarkDetection();
+  };
+
   return (
     <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       {user && (
@@ -35,7 +59,11 @@ export default function StudyroomLayout({
               {children}
             </div>
             <div className="shrink-0">
-              <RoomFooter />
+              <RoomFooter
+                handleStartWebcam={handleStartWebcam}
+                handleStopWebcam={handleStopWebcam}
+                handleToggleDetection={handleToggleDetection}
+              />
             </div>
           </div>
         </WebRTCProvider>
