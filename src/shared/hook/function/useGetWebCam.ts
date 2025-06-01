@@ -33,14 +33,11 @@ export const initCam = async (
 
 export const captureCam = (
   videoRef: React.RefObject<HTMLVideoElement | null>,
-  imgRef: React.RefObject<HTMLImageElement | null>,
-  isPause: boolean,
-  isFlag: boolean
+  imgRef: React.RefObject<HTMLImageElement | null>
 ) => {
   const video = videoRef.current;
   const img = imgRef.current;
 
-  if (isPause || isFlag) return;
   if (!video || !img) return;
 
   const handleLoadedMetadata = () => {
