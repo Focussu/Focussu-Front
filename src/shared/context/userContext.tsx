@@ -40,7 +40,6 @@ export async function fetchAndSetUser(setUser: (user: any) => void) {
         profileImageUrl: user.profileImageUrl,
       });
     }
-    console.log(user);
   } catch (err) {
     console.error("유저 정보 초기화 실패", err);
   }

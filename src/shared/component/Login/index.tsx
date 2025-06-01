@@ -70,7 +70,6 @@ export default function Login() {
     }
 
     mutate({ email, password });
-    console.log(data);
   };
 
   const inputs = [

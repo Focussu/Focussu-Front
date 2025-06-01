@@ -21,8 +21,6 @@ export default function RoomHeader() {
     staleTime: 5 * 1000,
   });
 
-  console.log(roomInfo);
-
   return (
     <div className="w-full bg-[#E0E0E0] h-[75px] flex items-center justify-center">
       <div className="flex-1 ml-[30px]">

@@ -180,7 +180,6 @@ export function useWebRTCManager(
 
     peer.ontrack = (e) => {
       const incoming = e.streams[0];
-      console.log("peerId:", peerId, "userId: ", userId);
 
       if (peerId === userId) return;
 
@@ -205,7 +204,6 @@ export function useWebRTCManager(
     setRemoteStreams([]);
     localStream?.getTracks().forEach((t) => t.stop());
     socketRef.current?.close();
-    console.log(socketRef);
   };
 
   return {

@@ -13,8 +13,6 @@ export default function RoomMembers() {
     ...remoteStreams,
   ];
 
-  console.log(remoteStreams);
-
   return (
     <div className="w-full h-full overflow-x-hidden px-4 py-6">
       <div

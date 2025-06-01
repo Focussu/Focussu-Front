@@ -43,8 +43,6 @@ export default function SelectModal({ room, handleClose }: SelectModalProps) {
     }
   };
 
-  console.log(room);
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm px-4">
       <div className="w-[90vw] max-w-[700px] bg-white rounded-xl shadow-2xl overflow-hidden">

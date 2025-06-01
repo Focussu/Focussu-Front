@@ -90,8 +90,6 @@ export const uploadToServer = async (blob: Blob) => {
     // //     body: formData,
     // //   }
     // // );
-    // console.log("업로드 성공");
-    // console.log(response.json());
   } catch (err) {
     console.error("업로드 실패:", err);
   }
