@@ -1,0 +1,147 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+import { FindMyLog } from "@/shared/type/forAPI/AIType";
+import { FindMyAILog } from "@/shared/hook/api/useAI";
+
+import React, { useMemo, useState } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
+
+export default function Concentrate() {
+  const { data: myData } = useQuery<FindMyLog>({
+    queryKey: ["My-AI-Analysis"],
+    queryFn: () => FindMyAILog(),
+    staleTime: 5 * 1000,
+  });
+
+  const parsedData = useMemo(() => {
+    return (myData || []).map((item) => {
+      const [date, time] = item.startTime.split("T");
+      const [year, month, day] = date.split("-");
+      const hour = time.slice(0, 2);
+      return {
+        ...item,
+        year,
+        month,
+        day,
+        hour,
+        displayTime: time.slice(0, 5),
+        score: Math.round(item.score * 100),
+      };
+    });
+  }, [myData]);
+
+  const years = Array.from(new Set(parsedData.map((d) => d.year)));
+  const [selectedYear, setSelectedYear] = useState<string | "">("");
+  const months = Array.from(
+    new Set(
+      parsedData.filter((d) => d.year === selectedYear).map((d) => d.month)
+    )
+  );
+  const [selectedMonth, setSelectedMonth] = useState<string | "">("");
+  const days = Array.from(
+    new Set(
+      parsedData
+        .filter((d) => d.year === selectedYear && d.month === selectedMonth)
+        .map((d) => d.day)
+    )
+  );
+  const [selectedDay, setSelectedDay] = useState<string | "">("");
+
+  const filteredData = useMemo(() => {
+    return parsedData.filter(
+      (d) =>
+        d.year === selectedYear &&
+        d.month === selectedMonth &&
+        d.day === selectedDay
+    );
+  }, [parsedData, selectedYear, selectedMonth, selectedDay]);
+
+  return (
+    <>
+      <ResponsiveContainer width="100%" height="80%">
+        <LineChart
+          data={filteredData}
+          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="displayTime" tick={{ fontSize: 10 }} />
+          <YAxis domain={[0, 100]} tick={{ fontSize: 10 }} unit="점" />
+          <Tooltip formatter={(value) => `${value}점`} />
+          <Line
+            type="monotone"
+            dataKey="score"
+            stroke="#30a14e"
+            strokeWidth={2}
+            dot={false}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+
+      <div className="flex items-center justify-center gap-2 text-sm mt-4 flex-wrap">
+        <div>
+          <label className="mr-1">년도:</label>
+          <select
+            className="border px-2 py-1 rounded"
+            onChange={(e) => {
+              setSelectedYear(e.target.value);
+              setSelectedMonth("");
+              setSelectedDay("");
+            }}
+            value={selectedYear}
+          >
+            <option value="">선택</option>
+            {years.map((y) => (
+              <option key={y} value={y}>
+                {y}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="mr-1">월:</label>
+          <select
+            className="border px-2 py-1 rounded"
+            onChange={(e) => {
+              setSelectedMonth(e.target.value);
+              setSelectedDay("");
+            }}
+            value={selectedMonth}
+            disabled={!selectedYear}
+          >
+            <option value="">선택</option>
+            {months.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="mr-1">일:</label>
+          <select
+            className="border px-2 py-1 rounded"
+            onChange={(e) => setSelectedDay(e.target.value)}
+            value={selectedDay}
+            disabled={!selectedMonth}
+          >
+            <option value="">선택</option>
+            {days.map((d) => (
+              <option key={d} value={d}>
+                {d}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+    </>
+  );
+}

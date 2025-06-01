@@ -36,13 +36,14 @@ export default function RoomFooter({
 }: RoomFooterProps) {
   const router = useRouter();
   const [isPause, setIsPause] = useState<boolean>(false);
+  const [isFlag, setIsFlag] = useState<boolean>(false);
 
   const { user } = useUserStore();
   const value = useAnalyzeAI();
 
   useEffect(() => {
-    captureCam(value.videoRef, value.imgRef, isPause);
-  }, [isPause]);
+    captureCam(value.videoRef, value.imgRef, isPause, isFlag);
+  }, [isPause, isFlag]);
 
   const { data: totalTime } = useQuery<TotalStudyTime>({
     queryKey: ["Total-Study-Time"],
@@ -72,6 +73,8 @@ export default function RoomFooter({
       handleToggleDetection();
     }
   };
+
+  console.log(value.aiResponse);
 
   return (
     <div className="w-full bg-[#E0E0E0] h-[125px] flex items-center justify-center z-">
