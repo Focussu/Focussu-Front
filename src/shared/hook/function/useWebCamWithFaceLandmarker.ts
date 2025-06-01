@@ -78,8 +78,6 @@ export const useWebCamWithFaceLandmarker =
           videoRef.current.srcObject = stream;
           streamRef.current = stream;
           setIsWebcamActive(true);
-
-          captureCam(videoRef, imgRef);
         }
       } catch (err) {
         console.error("웹캠 시작 실패:", err);

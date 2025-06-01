@@ -33,10 +33,14 @@ export const initCam = async (
 
 export const captureCam = (
   videoRef: React.RefObject<HTMLVideoElement | null>,
-  imgRef: React.RefObject<HTMLImageElement | null>
+  imgRef: React.RefObject<HTMLImageElement | null>,
+  isPause: boolean
 ) => {
   const video = videoRef.current;
   const img = imgRef.current;
+
+  if (isPause) return;
+
   if (!video || !img) return;
 
   const handleLoadedMetadata = () => {
@@ -95,6 +99,8 @@ export const uploadToServer = async (blob: Blob) => {
         body: formData,
       }
     );
+
+    console.log(response);
   } catch (err) {
     console.error("업로드 실패:", err);
   }

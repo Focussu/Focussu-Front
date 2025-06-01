@@ -11,12 +11,9 @@ import { TodayStudyTime } from "@/shared/type/forAPI/StudyType";
 import { FindTodayStudyTime } from "@/shared/hook/api/useStudyPart";
 import { formatDate } from "@/shared/util/formatDate";
 
-import { useAnalyzeAI } from "@/shared/context/analyzeAIContext";
-
 export default function MyRoom({ stream }: { stream: MediaStream | null }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { user } = useUserStore();
-  const value = useAnalyzeAI();
 
   useEffect(() => {
     initCam(videoRef);

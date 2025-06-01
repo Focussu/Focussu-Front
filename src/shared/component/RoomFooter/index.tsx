@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 
 import { useState } from "react";
@@ -21,6 +21,7 @@ import {
   FindTotalStudyTime,
 } from "@/shared/hook/api/useStudyPart";
 import { useAnalyzeAI } from "@/shared/context/analyzeAIContext";
+import { captureCam } from "@/shared/hook/function/useGetWebCam";
 
 interface RoomFooterProps {
   handleStartWebcam: () => void;
@@ -38,6 +39,10 @@ export default function RoomFooter({
 
   const { user } = useUserStore();
   const value = useAnalyzeAI();
+
+  useEffect(() => {
+    captureCam(value.videoRef, value.imgRef, isPause);
+  }, [isPause]);
 
   const { data: totalTime } = useQuery<TotalStudyTime>({
     queryKey: ["Total-Study-Time"],
@@ -85,6 +90,12 @@ export default function RoomFooter({
         className="fixed w-[1px] h-[1px] opacity-0 pointer-events-none"
         style={{ top: 0, left: 0 }}
       />
+      <img
+        ref={value.imgRef}
+        className="fixed w-[1px] h-[1px] opacity-0 pointer-events-none"
+        style={{ top: 0, left: 0 }}
+      />
+
       <div className="flex-1 h-full flex ml-[30px] justify-start items-center">
         <Image
           onClick={() => router.push("/")}
