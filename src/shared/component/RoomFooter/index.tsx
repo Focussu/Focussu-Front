@@ -36,13 +36,19 @@ export default function RoomFooter({
 }: RoomFooterProps) {
   const router = useRouter();
   const [isPause, setIsPause] = useState<boolean>(false);
+  const [flag, setFlag] = useState<boolean>(true);
 
   const { user } = useUserStore();
   const value = useAnalyzeAI();
 
   useEffect(() => {
-    if (value?.aiResponse?.flag && !isPause)
+    if (value.aiResponse && "flag" in value.aiResponse) {
+      setFlag(value.aiResponse.flag);
+    }
+
+    if (value?.aiResponse?.flag && isPause) {
       captureCam(value.videoRef, value.imgRef);
+    }
   }, [isPause, value.aiResponse]);
 
   const { data: totalTime } = useQuery<TotalStudyTime>({

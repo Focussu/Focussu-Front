@@ -18,10 +18,15 @@ export type FindIndivLog = BasicAnaylsis[];
 
 export type FindMyLog = BasicAnaylsis[];
 
-// /ai-anlysis/analyze
+// /analyze
 // 관리
-export interface MyAnalyze {
+export interface MyAnalyzeResponse {
   status: string;
-  result: string;
-  original: string[];
+}
+
+// /analyze
+
+export interface MyAnalyzeRequest {
+  ticketNumber: number;
+  userID: number;
 }

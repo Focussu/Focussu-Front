@@ -268,7 +268,7 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
 
               const result = await response.json();
             } catch (err) {
-              alert(err);
+              console.log(err);
             } finally {
               isSendingRef.current = false; // 전송 완료
             }

@@ -38,7 +38,9 @@ export const captureCam = (
   const video = videoRef.current;
   const img = imgRef.current;
 
-  if (!video || !img) return;
+  if (!video || !img) {
+    return;
+  }
 
   const handleLoadedMetadata = () => {
     const canvas = document.createElement("canvas");
@@ -59,10 +61,12 @@ export const captureCam = (
       img.src = url;
     };
 
-    setInterval(captureFrame, 10000);
+    console.log("나 여기있음");
+
+    captureFrame();
   };
 
-  video.addEventListener("loadedmetadata", handleLoadedMetadata);
+  handleLoadedMetadata();
 };
 
 export const base64ToBlob = (base64Data: string): Blob => {

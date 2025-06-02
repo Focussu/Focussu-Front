@@ -2,6 +2,7 @@
 
 import { startCam } from "@/shared/hook/function/useGetWebCam";
 import { useEffect, useRef, useState } from "react";
+import { AnalyzeStudy } from "@/shared/hook/api/useAnalysis";
 
 export function useWebRTCManager(
   roomId: string,
@@ -92,6 +93,19 @@ export function useWebRTCManager(
               }
               delete pendingCandidates.current[from];
             }
+            break;
+          }
+
+          case "TICKET_CREATED": {
+            const ticketNumber = msg.payload.ticketId;
+            const existing = sessionStorage.getItem("ticketNumber");
+
+            console.log(existing);
+
+            if (!existing) {
+              sessionStorage.setItem("ticketNumber", ticketNumber);
+            }
+
             break;
           }
 
@@ -199,13 +213,26 @@ export function useWebRTCManager(
     return peer;
   };
 
-  const leaveRoom = () => {
+  const leaveRoom = async (userID: number) => {
+    const ticketNumber = Number(sessionStorage.getItem("ticketNumber"));
+    if (!ticketNumber) return;
+
+    try {
+      await AnalyzeStudy({ ticketNumber, userID });
+      console.log("✅ 분석 완료 후 퇴장 처리 시작");
+    } catch (err) {
+      console.error("❌ 분석 실패, 퇴장 처리 건너뜀");
+      return;
+    }
+
     socketRef.current?.send(JSON.stringify({ type: "LEAVE", roomId }));
     Object.values(peersRef.current).forEach((peer) => peer.close());
     peersRef.current = {};
     setRemoteStreams([]);
     localStream?.getTracks().forEach((t) => t.stop());
     socketRef.current?.close();
+
+    sessionStorage.removeItem("ticketNumber");
   };
 
   return {
