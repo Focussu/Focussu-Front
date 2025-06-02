@@ -17,3 +17,11 @@ export type FindIndivLog = BasicAnaylsis[];
 // 내 로그 조회
 
 export type FindMyLog = BasicAnaylsis[];
+
+// /ai-anlysis/analyze
+// 관리
+export interface MyAnalyze {
+  status: string;
+  result: string;
+  original: string[];
+}

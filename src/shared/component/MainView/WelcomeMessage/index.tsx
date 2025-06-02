@@ -35,13 +35,13 @@ export default function WelcomeMessage() {
       : "처음 들어오셨네요! 환영합니다!";
 
   return (
-    <div className="flex flex-col items-center text-center justify-center">
-      <h1 className="text-[clamp(48px,2.5vw,64px)] font-bold mb-2 text-black whitespace-nowrap">
+    <div className="flex flex-col items-center text-center justify-center max-w-full">
+      <h1 className="text-[clamp(28px,4vw,40px)] font-bold mb-1 text-black leading-tight break-keep">
         {user && "name" in user
           ? `${user.name}님 반가워요!`
           : "회원님 반가워요!"}
       </h1>
-      <p className="text-[clamp(16px,2.5vw,24px)] text-zinc-500 whitespace-nowrap">
+      <p className="text-[clamp(14px,3vw,18px)] text-zinc-500 leading-snug text-wrap">
         {message}
       </p>
     </div>

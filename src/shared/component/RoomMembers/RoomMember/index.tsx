@@ -68,7 +68,7 @@ export default function RoomMember({
   return (
     <>
       <Link
-        href={`/studyroom/1/1`}
+        href={`/studyroom/1/${isFindId(userId) ? userId.member_id : 1}`}
         className="w-full aspect-[415/225] rounded-lg bg-white flex flex-col justify-center items-center shadow-sm"
       >
         <video
