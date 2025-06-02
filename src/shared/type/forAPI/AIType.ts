@@ -25,7 +25,6 @@ export interface MyAnalyzeResponse {
 }
 
 // /analyze
-
 export interface MyAnalyzeRequest {
   ticketNumber: number;
   userID: number;
