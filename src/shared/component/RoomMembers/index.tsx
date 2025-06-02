@@ -4,6 +4,7 @@ import MyRoom from "@/shared/component/RoomMembers/MyRoom";
 import RoomMember from "@/shared/component/RoomMembers/RoomMember";
 
 import { useWebRTC } from "@/shared/context/webRTCContext";
+import { ElapsedTimeProvider } from "@/shared/context/ElapsedContext";
 
 export default function RoomMembers() {
   const { localStream, remoteStreams } = useWebRTC();
@@ -17,15 +18,19 @@ export default function RoomMembers() {
     <div className="w-full h-full overflow-x-hidden px-4 py-6">
       <div
         className="grid gap-6 sm:gap-8 lg:gap-10 justify-center"
-        style={{ gridTemplateColumns: "repeat(auto-fill, minmax(22rem, 1fr))" }}
+        style={{
+          gridTemplateColumns: "repeat(auto-fill, minmax(22rem, 1fr))",
+        }}
       >
-        {allMembers.map((member) =>
-          member.id === "me" ? (
-            <MyRoom key="me" stream={member.stream} />
-          ) : (
-            <RoomMember key={member.id} stream={member.stream} id={member.id} />
-          )
-        )}
+        {allMembers.map((member) => (
+          <ElapsedTimeProvider key={member.id}>
+            {member.id === "me" ? (
+              <MyRoom stream={member.stream} />
+            ) : (
+              <RoomMember stream={member.stream} id={member.id} />
+            )}
+          </ElapsedTimeProvider>
+        ))}
       </div>
     </div>
   );

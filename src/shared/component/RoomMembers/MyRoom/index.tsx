@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import { initCam } from "@/shared/hook/function/useGetWebCam";
 import { useUserStore } from "@/shared/store/setUserStore";
+import { useElapsedTime } from "@/shared/context/ElapsedContext";
 
 import { TodayStudyTime } from "@/shared/type/forAPI/StudyType";
 import { FindTodayStudyTime } from "@/shared/hook/api/useStudyPart";
@@ -14,6 +15,7 @@ import { formatDate } from "@/shared/util/formatDate";
 export default function MyRoom({ stream }: { stream: MediaStream | null }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { user } = useUserStore();
+  const { elapsedTime } = useElapsedTime();
 
   useEffect(() => {
     initCam(videoRef);
@@ -42,7 +44,7 @@ export default function MyRoom({ stream }: { stream: MediaStream | null }) {
           <div className="font-semibold">{user?.name}</div>
           {todayTime && (
             <div className="text-xs text-gray-600">
-              {formatDate(todayTime.seconds)}
+              {formatDate(todayTime.seconds + elapsedTime)}
             </div>
           )}
         </div>

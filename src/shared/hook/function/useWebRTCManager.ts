@@ -35,8 +35,9 @@ export function useWebRTCManager(
         socketRef.current = socket;
 
         socket.onopen = () => {
-          hasSocketOpened.current = true;
-          socket.send(JSON.stringify({ type: "JOIN", roomId }));
+          setTimeout(() => {
+            socket.send(JSON.stringify({ type: "JOIN", roomId }));
+          }, 300);
         };
 
         socket.onmessage = async (event) => {
@@ -68,15 +69,21 @@ export function useWebRTCManager(
 
             case "TICKET_CREATED": {
               const from = msg.payload;
-              console.log(from);
-
               sessionStorage.setItem("ticketNumber", from.ticketId);
+              break;
             }
 
             case "OFFER": {
               const from = msg.payload.from;
+
+              if (peersRef.current[from]) {
+                peersRef.current[from].peer.close();
+                delete peersRef.current[from];
+              }
+
               const peer = createPeer(from);
               peersRef.current[from] = { peer, stream: new MediaStream() };
+
               stream
                 .getTracks()
                 .forEach((track) => peer.addTrack(track, stream));
@@ -84,9 +91,11 @@ export function useWebRTCManager(
               await peer.setRemoteDescription(
                 new RTCSessionDescription(msg.payload.offer)
               );
+
               const answer = await peer.createAnswer();
               await peer.setLocalDescription(answer);
-              socket.send(
+
+              socketRef.current?.send(
                 JSON.stringify({
                   type: "ANSWER",
                   roomId,
@@ -108,14 +117,31 @@ export function useWebRTCManager(
             case "ANSWER": {
               const from = msg.payload.from;
               const peer = peersRef.current[from]?.peer;
+
               if (!peer) {
                 console.warn("Peer not found for ANSWER:", from);
                 return;
               }
 
-              await peer.setRemoteDescription(
-                new RTCSessionDescription(msg.payload.answer)
-              );
+              const signalingState = peer.signalingState;
+              const answer = msg.payload.answer;
+
+              if (
+                signalingState === "have-local-offer" &&
+                answer?.type === "answer"
+              ) {
+                try {
+                  await peer.setRemoteDescription(
+                    new RTCSessionDescription(answer)
+                  );
+                } catch (err) {
+                  console.error("[ERROR] setRemoteDescription failed:", err);
+                }
+              } else {
+                console.warn(
+                  `[SKIP] Not setting remote answer: current state = ${signalingState}`
+                );
+              }
 
               if (pendingCandidates.current[from]) {
                 for (const c of pendingCandidates.current[from]) {
@@ -159,9 +185,24 @@ export function useWebRTCManager(
     };
 
     setup();
+
+    const handleBeforeUnload = () => {
+      socketRef.current?.send(JSON.stringify({ type: "LEAVE", roomId }));
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, [roomId, socketUrl]);
 
   const createPeer = (peerId: string) => {
+    if (peersRef.current[peerId]) {
+      peersRef.current[peerId].peer.close();
+      delete peersRef.current[peerId];
+      setRemoteStreams((prev) => prev.filter((s) => s.id !== peerId));
+    }
+
     const peer = new RTCPeerConnection({
       iceServers: [
         { urls: "stun:stun.l.google.com:19302" },
@@ -187,13 +228,11 @@ export function useWebRTCManager(
 
     peer.ontrack = (e) => {
       const incoming = e.streams[0];
-
-      if (peerId === userId) return;
+      if (!incoming || peerId === userId) return;
 
       setRemoteStreams((prev) => {
-        const exists = prev.some((s) => s.id === peerId);
-        if (exists) return prev;
-        return [...prev, { id: peerId, stream: incoming }];
+        const filtered = prev.filter((s) => s.id !== peerId);
+        return [...filtered, { id: peerId, stream: incoming }];
       });
     };
 

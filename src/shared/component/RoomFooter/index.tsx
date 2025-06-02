@@ -74,8 +74,6 @@ export default function RoomFooter({
     }
   };
 
-  console.log(value.aiResponse);
-
   return (
     <div className="w-full bg-[#E0E0E0] h-[125px] flex items-center justify-center z-">
       {/* 가상 캔버스 생성 */}
