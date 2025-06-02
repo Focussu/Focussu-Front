@@ -17,6 +17,7 @@ export interface TakeResponse {
   blendshape_score: Float16Array;
   confidence: Float16Array;
   processing_time: Float16Array;
+  flag: boolean;
 }
 
 export interface UseFaceLandmarkerReturn {
@@ -225,6 +226,7 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
             }
 
             const result = await response.json();
+
             setAiResponse(result as TakeResponse);
           } catch (err) {
           } finally {
@@ -266,7 +268,7 @@ export const useFaceLandmarker = (): UseFaceLandmarkerReturn => {
 
               const result = await response.json();
             } catch (err) {
-              alert(err);
+              console.log(err);
             } finally {
               isSendingRef.current = false; // 전송 완료
             }

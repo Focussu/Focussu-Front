@@ -27,6 +27,7 @@ export default function PersonalList({
         </div>
         <div className="flex flex-col gap-[10px] mt-[10px]">
           <Link
+            onClick={() => sessionStorage.removeItem("ticketNumber")}
             href={`/studyroom/${room?.id}`}
             className="bg-black text-white text-[10px] rounded-lg flex justify-center pl-[10px] pr-[10px] pt-[3px] pb-[3px]"
           >

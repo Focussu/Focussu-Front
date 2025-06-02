@@ -17,3 +17,15 @@ export type FindIndivLog = BasicAnaylsis[];
 // 내 로그 조회
 
 export type FindMyLog = BasicAnaylsis[];
+
+// /analyze
+// 관리
+export interface MyAnalyzeResponse {
+  status: string;
+}
+
+// /analyze
+export interface MyAnalyzeRequest {
+  ticketNumber: number;
+  userID: number;
+}

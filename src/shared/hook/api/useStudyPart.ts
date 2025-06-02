@@ -13,8 +13,6 @@ import {
   TodayAvgRate,
 } from "@/shared/type/forAPI/StudyType";
 
-const token = localStorage.getItem("token");
-
 /*
 const { data } = useQuery<반환하고자 하는 Interface>({
   queryKey: ["..."],
@@ -24,6 +22,8 @@ const { data } = useQuery<반환하고자 하는 Interface>({
 */
 
 export const FindThisWeekStudyTime = async () => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}study/time/week`,
     {
@@ -36,6 +36,8 @@ export const FindThisWeekStudyTime = async () => {
 };
 
 export const FindTotalStudyTime = async () => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}study/time/total`,
     {
@@ -49,6 +51,8 @@ export const FindTotalStudyTime = async () => {
 };
 
 export const FindTodayStudyTime = async () => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}study/time/today`,
     {
@@ -62,6 +66,8 @@ export const FindTodayStudyTime = async () => {
 };
 
 export const FindOtherTodayStudyTime = async (email: string) => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}study/time/today/other?email=${email}`,
     {
@@ -75,6 +81,8 @@ export const FindOtherTodayStudyTime = async (email: string) => {
 };
 
 export const FindMyDailyTime = async () => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}study/time/daily`,
     {
@@ -88,6 +96,8 @@ export const FindMyDailyTime = async () => {
 };
 
 export const FindHowRecentTime = async () => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}study/inactive-seconds`,
     {
@@ -101,6 +111,8 @@ export const FindHowRecentTime = async () => {
 };
 
 export const FindConThisWeekStudyTime = async () => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}study/focused-time/week`,
     {
@@ -114,6 +126,8 @@ export const FindConThisWeekStudyTime = async () => {
 };
 
 export const FindConTotalStudyTime = async () => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}study/focused-time/total`,
     {
@@ -127,6 +141,8 @@ export const FindConTotalStudyTime = async () => {
 };
 
 export const FindConTodayStudyTime = async () => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}study/focused-time/today`,
     {
@@ -140,6 +156,8 @@ export const FindConTodayStudyTime = async () => {
 };
 
 export const FindThisWeekAvgRate = async () => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}study/concentration/week`,
     {
@@ -153,6 +171,8 @@ export const FindThisWeekAvgRate = async () => {
 };
 
 export const FindTotalAvgRate = async () => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}study/concentration/total`,
     {
@@ -166,6 +186,8 @@ export const FindTotalAvgRate = async () => {
 };
 
 export const FindTodayAvgRate = async () => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}study/concentration/today`,
     {

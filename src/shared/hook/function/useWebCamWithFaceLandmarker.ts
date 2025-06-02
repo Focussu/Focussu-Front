@@ -6,7 +6,6 @@ import {
   FaceLandmarkResult,
   TakeResponse,
 } from "./useFaceLandmarker";
-import { captureCam } from "./useGetWebCam";
 
 export interface UseWebCamWithFaceLandmarkerReturn {
   videoRef: React.RefObject<HTMLVideoElement | null>;
@@ -78,8 +77,6 @@ export const useWebCamWithFaceLandmarker =
           videoRef.current.srcObject = stream;
           streamRef.current = stream;
           setIsWebcamActive(true);
-
-          captureCam(videoRef, imgRef);
         }
       } catch (err) {
         console.error("웹캠 시작 실패:", err);
@@ -162,7 +159,6 @@ export const useWebCamWithFaceLandmarker =
 
       if (!lastDetection || now - parseInt(lastDetection) > 50) {
         const results = detectFace(video);
-        console.log(results); // → landmarks, blendshapes 실제 들어있는지
 
         if (results) {
           setLastResults(results);
