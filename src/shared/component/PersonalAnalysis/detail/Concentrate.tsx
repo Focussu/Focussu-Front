@@ -1,10 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { FindMyLog } from "@/shared/type/forAPI/AIType";
-import { FindMyAILog } from "@/shared/hook/api/useAI";
-
-import React, { useMemo, useState } from "react";
+import React from "react";
 import {
   LineChart,
   Line,
@@ -15,55 +11,37 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export default function Concentrate() {
-  const { data: myData } = useQuery<FindMyLog>({
-    queryKey: ["My-AI-Analysis"],
-    queryFn: () => FindMyAILog(),
-    staleTime: 5 * 1000,
-  });
+type Props = {
+  data: any[];
+  selectedYear: string;
+  selectedMonth: string;
+  selectedDay: string;
+  setSelectedYear: (year: string) => void;
+  setSelectedMonth: (month: string) => void;
+  setSelectedDay: (day: string) => void;
+  years: string[];
+  months: string[];
+  days: string[];
+};
 
-  const parsedData = useMemo(() => {
-    return (myData || []).map((item) => {
-      const [date, time] = item.startTime.split("T");
-      const [year, month, day] = date.split("-");
-      const hour = time.slice(0, 2);
-      return {
-        ...item,
-        year,
-        month,
-        day,
-        hour,
-        displayTime: time.slice(0, 5),
-        score: Math.round(item.score * 100),
-      };
-    });
-  }, [myData]);
-
-  const years = Array.from(new Set(parsedData.map((d) => d.year)));
-  const [selectedYear, setSelectedYear] = useState<string | "">("");
-  const months = Array.from(
-    new Set(
-      parsedData.filter((d) => d.year === selectedYear).map((d) => d.month)
-    )
+export default function Concentrate({
+  data,
+  selectedYear,
+  selectedMonth,
+  selectedDay,
+  setSelectedYear,
+  setSelectedMonth,
+  setSelectedDay,
+  years,
+  months,
+  days,
+}: Props) {
+  const filteredData = data.filter(
+    (d) =>
+      d.year === selectedYear &&
+      d.month === selectedMonth &&
+      d.day === selectedDay
   );
-  const [selectedMonth, setSelectedMonth] = useState<string | "">("");
-  const days = Array.from(
-    new Set(
-      parsedData
-        .filter((d) => d.year === selectedYear && d.month === selectedMonth)
-        .map((d) => d.day)
-    )
-  );
-  const [selectedDay, setSelectedDay] = useState<string | "">("");
-
-  const filteredData = useMemo(() => {
-    return parsedData.filter(
-      (d) =>
-        d.year === selectedYear &&
-        d.month === selectedMonth &&
-        d.day === selectedDay
-    );
-  }, [parsedData, selectedYear, selectedMonth, selectedDay]);
 
   return (
     <>
@@ -86,7 +64,7 @@ export default function Concentrate() {
         </LineChart>
       </ResponsiveContainer>
 
-      <div className="flex items-center justify-center gap-2 text-sm mt-4 flex-wrap">
+      <div className="flex items-center justify-center gap-2 text-sm flex-wrap">
         <div>
           <label className="mr-1">년도:</label>
           <select

@@ -54,9 +54,6 @@ export default function StudyGroupList() {
         className={isModalOpen ? "blur-sm pointer-events-none select-none" : ""}
       >
         <div className="mx-auto mt-[40px]">
-          <div className="w-full flex justify-center px-4">
-            <SearchBar />
-          </div>
           <div className="flex justify-center mt-[52px]">
             <div className="mx-auto flex justify-center items-center">
               <LeftButton onClick={handlePrev} disabled={currentPage === 0} />

@@ -1,6 +1,10 @@
 "use client";
 
-import { FindMyLog, FindIndivLog } from "@/shared/type/forAPI/AIType";
+import {
+  FindMyLog,
+  FindIndivLog,
+  MyAIReportResponse,
+} from "@/shared/type/forAPI/AIType";
 
 export const FindIndivAILog = async (ticket_id: number) => {
   const token = localStorage.getItem("token");
@@ -32,4 +36,20 @@ export const FindMyAILog = async () => {
   );
 
   return (await res.json()) as FindMyLog;
+};
+
+export const FindMyReport = async (ticket_id: number) => {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACK_SERVER_URL}analysis-document?ticketNumbers=${ticket_id}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return (await res.json()) as MyAIReportResponse;
 };

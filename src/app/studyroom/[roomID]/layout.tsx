@@ -85,6 +85,7 @@ export default function StudyroomLayout({
             </div>
             <div className="shrink-0">
               <RoomFooter
+                elapsedTime={elapsedTime}
                 handleStartWebcam={handleStartWebcam}
                 handleStopWebcam={handleStopWebcam}
                 handleToggleDetection={handleToggleDetection}

@@ -79,30 +79,30 @@ export default function GrassBoard() {
       </div>
       <div className="w-full border-t-1 mt-[10px] mx-[18px]" />
 
-      <div className="flex w-full justify-center items-start mt-4">
-        <div>
-          <div className="flex ml-[28px] mb-1">
+      <div className="flex w-full justify-center items-start mt-2 overflow-x-auto">
+        <div className="min-w-[700px]">
+          {/* 월 이름 */}
+          <div className="flex ml-[25px] mb-1 text-[10px] text-gray-500">
             {months.map((month, idx) => (
-              <div
-                key={idx}
-                className="w-[14px] h-[14px] mr-[60px] text-[10px] text-gray-500 text-center"
-              >
+              <div key={idx} className="w-[11px] mr-[42px] text-center">
                 {month}
               </div>
             ))}
           </div>
 
           <div className="flex">
-            <div className="flex flex-col justify-between h-[115px] mr-[5px] text-[10px] text-gray-500">
+            {/* 요일 라벨 */}
+            <div className="flex flex-col justify-between h-[90px] mr-[5px] text-[9px] text-gray-500">
               {weekdayLabels.map((label, idx) => (
-                <div key={idx} className="h-[14px]">
+                <div key={idx} className="h-[12px] ">
                   {label}
                 </div>
               ))}
             </div>
 
+            {/* 잔디 그래프 */}
             {columns.map((week, colIdx) => (
-              <div key={colIdx} className="flex flex-col gap-[3px] mr-[3px]">
+              <div key={colIdx} className="flex flex-col gap-[2px] mr-[2px]">
                 {week.map((date, rowIdx) => {
                   const formatted = format(date, "yyyy-MM-dd");
                   const minutes = dateToMinutes[formatted] || 0;
@@ -113,14 +113,11 @@ export default function GrassBoard() {
                   return (
                     <div
                       key={rowIdx}
-                      className={`w-[14px] h-[14px] rounded-[2px] ${getColor(
+                      className={`w-[11px] h-[11px] rounded-[1px] ${getColor(
                         getLevel(minutes)
                       )} relative group`}
                     >
-                      <div
-                        className="absolute -top-[42px] left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-[6px] bg-black text-white text-[12px] rounded-md opacity-0 group-hover:opacity-100 z-50 pointer-events-none"
-                        style={{ transition: "opacity 0.1s ease-in-out" }}
-                      >
+                      <div className="absolute -top-[40px] left-1/2 -translate-x-1/2 whitespace-nowrap px-2 py-[4px] bg-black text-white text-[10px] rounded opacity-0 group-hover:opacity-100 z-50 pointer-events-none transition-opacity duration-100 ">
                         {label}
                       </div>
                     </div>
@@ -131,22 +128,21 @@ export default function GrassBoard() {
           </div>
         </div>
 
-        <div className="ml-6 mt-2">
-          <div className="flex flex-col gap-2 mt-2">
-            {yearOptions.map((year) => (
-              <button
-                key={year}
-                onClick={() => setSelectedYear(year)}
-                className={`px-3 py-1 rounded border text-sm font-medium ${
-                  selectedYear === year
-                    ? "bg-black text-white"
-                    : "bg-white text-black border-gray-300"
-                }`}
-              >
-                {year}
-              </button>
-            ))}
-          </div>
+        {/* 연도 선택 버튼 */}
+        <div className="ml-3 mt-1 flex flex-col gap-1">
+          {yearOptions.map((year) => (
+            <button
+              key={year}
+              onClick={() => setSelectedYear(year)}
+              className={`px-2 py-[2px] text-xs rounded border font-medium ${
+                selectedYear === year
+                  ? "bg-black text-white"
+                  : "bg-white text-black border-gray-300"
+              }`}
+            >
+              {year}
+            </button>
+          ))}
         </div>
       </div>
     </div>

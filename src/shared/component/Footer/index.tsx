@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <div className="pl-[80px] pr-[80px] pt-[45px] pb-[45px] flex justify-between border-t-1">
+    <div className="pl-[80px] pr-[80px] pt-[25px] pb-[25px] flex justify-between border-t-1">
       <div className="text-[24px] text-gray-400">FOCUSSU</div>
       <div className="flex flex-row gap-[24px]">
         <Image
