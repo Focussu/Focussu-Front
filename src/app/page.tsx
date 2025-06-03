@@ -92,7 +92,7 @@ export default function Home() {
         </button>
       </div>
 
-      <footer className="h-[80px] shrink-0">
+      <footer className="h-[40px] shrink-0">
         <Footer />
       </footer>
     </div>

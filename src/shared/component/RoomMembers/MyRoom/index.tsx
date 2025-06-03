@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 
 import { initCam } from "@/shared/hook/function/useGetWebCam";
 import { useUserStore } from "@/shared/store/setUserStore";
@@ -30,25 +30,28 @@ export default function MyRoom({ stream }: { stream: MediaStream | null }) {
   return (
     <Link
       href="/studyroom/1/1"
-      className="w-full aspect-[415/225] rounded-lg bg-white flex flex-col justify-center items-center shadow-sm"
+      className="w-full max-w-[420px] aspect-[16/10] rounded-2xl bg-white shadow-md hover:shadow-lg transition-all duration-200 flex flex-col justify-between items-center overflow-hidden"
     >
       <video
         ref={videoRef}
         autoPlay
         muted
         playsInline
-        className="w-[65%] h-[70%] mt-4 rounded-md object-cover bg-gray-500"
-      ></video>
-      <div className="w-[65%] flex justify-between mt-3 mb-4 text-sm">
-        <div className="flex gap-3 items-center">
-          <div className="font-semibold">{user?.name}</div>
-          {todayTime && (
-            <div className="text-xs text-gray-600">
-              {formatDate(todayTime.seconds + elapsedTime)}
-            </div>
-          )}
+        className="w-full h-[75%] object-cover bg-gray-300"
+      />
+
+      <div className="w-full px-4 py-3 flex items-center justify-center">
+        <div className="flex flex-col">
+          <span className="font-semibold text-lg text-gray-900 mr-4">
+            {user?.name}
+          </span>
         </div>
-        <div className="px-2 py-1 text-[10px] rounded border border-gray-400">
+        {todayTime && "seconds" in todayTime && (
+          <span className="text-base text-gray-500 mt-[2px] mr-10">
+            {formatDate(todayTime.seconds + elapsedTime)}
+          </span>
+        )}
+        <div className="text-sm bg-green-100 text-green-700 px-3 py-[4px] rounded-full font-medium border border-green-300">
           ✅ 현재 활동 중
         </div>
       </div>

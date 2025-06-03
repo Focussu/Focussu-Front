@@ -2,7 +2,6 @@
 
 import MyRoom from "@/shared/component/RoomMembers/MyRoom";
 import RoomMember from "@/shared/component/RoomMembers/RoomMember";
-
 import { useWebRTC } from "@/shared/context/webRTCContext";
 import { ElapsedTimeProvider } from "@/shared/context/ElapsedContext";
 
@@ -15,11 +14,11 @@ export default function RoomMembers() {
   ];
 
   return (
-    <div className="w-full h-full overflow-x-hidden px-4 py-6">
+    <div className="w-full h-full overflow-x-hidden px-6 py-6">
       <div
-        className="grid gap-6 sm:gap-8 lg:gap-10 justify-center"
+        className="grid justify-center gap-6 sm:gap-8 md:gap-10"
         style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(22rem, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
         }}
       >
         {allMembers.map((member) => (

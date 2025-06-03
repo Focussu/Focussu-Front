@@ -29,3 +29,14 @@ export interface MyAnalyzeRequest {
   ticketNumber: number;
   userID: number;
 }
+
+// /analysis-document
+// 내 보고서 조회
+
+export interface MyAIReport {
+  id: number;
+  ticketNumber: number;
+  content: string;
+}
+
+export type MyAIReportResponse = MyAIReport[];

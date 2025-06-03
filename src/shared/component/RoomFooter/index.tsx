@@ -24,12 +24,14 @@ import { useAnalyzeAI } from "@/shared/context/analyzeAIContext";
 import { captureCam } from "@/shared/hook/function/useGetWebCam";
 
 interface RoomFooterProps {
+  elapsedTime: number;
   handleStartWebcam: () => void;
   handleStopWebcam: () => void;
   handleToggleDetection: () => void;
 }
 
 export default function RoomFooter({
+  elapsedTime,
   handleStartWebcam,
   handleStopWebcam,
   handleToggleDetection,
@@ -152,19 +154,20 @@ export default function RoomFooter({
             <div className="flex-1 flex flex-col gap-[5px]">
               {totalTime && (
                 <div className="text-[13px]">
-                  총 집중시간 : {formatDate(totalTime.seconds)}
+                  총 집중시간 : {formatDate(totalTime.seconds + elapsedTime)}
                 </div>
               )}
               {thisWeekTime && (
                 <div className="text-[13px]">
-                  금주 집중시간 : {formatDate(thisWeekTime.seconds)}
+                  금주 집중시간 :{" "}
+                  {formatDate(thisWeekTime.seconds + elapsedTime)}
                 </div>
               )}
             </div>
             <div className="flex-1 flex flex-col gap-[5px] ml-[20px]">
               {todayTime && (
                 <div className="text-[13px]">
-                  오늘 집중시간 : {formatDate(todayTime.seconds)}
+                  오늘 집중시간 : {formatDate(todayTime.seconds + elapsedTime)}
                 </div>
               )}
               <div className="text-[13px]">
