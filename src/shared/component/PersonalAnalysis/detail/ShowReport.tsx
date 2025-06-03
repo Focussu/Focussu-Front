@@ -54,7 +54,9 @@ export default function ShowReport({
 
       <div className="bg-gray-100 rounded-xl p-3 md:p-4 shadow-sm">
         <div className="font-bold mb-1">💡 분석 기반 피드백</div>
-        <div className="whitespace-pre-wrap">{feedback}</div>
+        <div className="whitespace-pre-wrap break-keep max-w-full overflow-y-auto max-h-33 pr-1">
+          {feedback}
+        </div>
       </div>
     </div>
   );
