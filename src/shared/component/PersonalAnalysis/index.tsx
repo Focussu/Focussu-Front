@@ -160,7 +160,9 @@ export default function PersonalAnalysis() {
               </select>
             </div>
           )}
-          <ShowReport session={selectedSession} />
+          <div className="max-h-1">
+            <ShowReport session={selectedSession} />
+          </div>
         </div>
       </div>
     </div>
