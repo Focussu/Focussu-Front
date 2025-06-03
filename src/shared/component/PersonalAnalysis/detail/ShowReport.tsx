@@ -35,6 +35,12 @@ export default function ShowReport({
     staleTime: 5 * 1000,
   });
 
+  const defaultFeedback =
+    "⚠️ 충분한 데이터가 없어 AI 분석 피드백을 제공하기 어렵습니다.\n다음에는 조금 더 긴 세션을 기록해보세요!";
+
+  const feedback =
+    myPost && myPost[0]?.content?.trim() ? myPost[0].content : defaultFeedback;
+
   return (
     <div className="w-full h-full p-2 md:p-4 flex flex-col gap-4 text-sm text-gray-800">
       <div className="text-base md:text-lg font-semibold mb-2">
@@ -48,10 +54,7 @@ export default function ShowReport({
 
       <div className="bg-gray-100 rounded-xl p-3 md:p-4 shadow-sm">
         <div className="font-bold mb-1">💡 분석 기반 피드백</div>
-        <ul className="list-disc list-inside">
-          <li>집중 점수 기반 개인 맞춤 피드백 가능</li>
-          <li>세션 시간대에 따라 활동 패턴 분석 가능</li>
-        </ul>
+        <div className="whitespace-pre-wrap">{feedback}</div>
       </div>
     </div>
   );
